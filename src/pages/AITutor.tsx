@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
-import { Send, Brain, Loader2, Bot, User, WifiOff } from 'lucide-react'
+import { Send, Brain, Loader2, Bot, User, WifiOff, ExternalLink } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
-import { askAITutor, isAIEnabled } from '../lib/ai'
+import { askAITutor, getAIProvider } from '../lib/ai'
 
 interface Message {
   role: 'user' | 'assistant'
@@ -30,6 +30,7 @@ export default function AITutor() {
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const provider = getAIProvider()
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -50,23 +51,39 @@ export default function AITutor() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col" style={{ height: 'calc(100vh - 80px)' }}>
-      <div className="flex items-center gap-3 mb-4 animate-fade-in">
-        <div className="w-10 h-10 gradient-purple rounded-xl flex items-center justify-center shadow-glow-purple">
-          <Brain className="text-white" size={20} />
-        </div>
-        <div>
-          <h1 className="text-lg font-extrabold text-gray-900 tracking-tight">AI Tutor</h1>
-          <div className="flex items-center gap-1.5">
-            <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse-soft" />
-            <p className="text-xs text-gray-500 font-medium">Always available</p>
+      <div className="flex items-center justify-between mb-4 animate-fade-in">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 gradient-purple rounded-xl flex items-center justify-center shadow-glow-purple">
+            <Brain className="text-white" size={20} />
+          </div>
+          <div>
+            <h1 className="text-lg font-extrabold text-gray-900 tracking-tight">AI Tutor</h1>
+            <div className="flex items-center gap-1.5">
+              <span className={`w-2 h-2 rounded-full ${provider !== 'offline' ? 'bg-emerald-400 animate-pulse-soft' : 'bg-amber-400'}`} />
+              <p className="text-xs text-gray-500 font-medium">
+                {provider === 'groq' && 'Powered by Groq (free)'}
+                {provider === 'openai' && 'Powered by OpenAI'}
+                {provider === 'offline' && 'Offline mode'}
+              </p>
+            </div>
           </div>
         </div>
+        {provider === 'offline' && (
+          <a
+            href="https://console.groq.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 text-xs font-semibold text-purple-600 bg-purple-50 px-3 py-1.5 rounded-lg border border-purple-100 hover:bg-purple-100 transition-all"
+          >
+            Get free API key <ExternalLink size={12} />
+          </a>
+        )}
       </div>
 
-      {!isAIEnabled() && (
+      {provider === 'offline' && (
         <div className="mb-3 flex items-center gap-2 bg-amber-50 border border-amber-200/60 rounded-xl px-3 py-2 text-xs text-amber-700 animate-fade-in">
           <WifiOff size={14} />
-          <span className="font-medium">Offline mode</span> — responses are from a built-in knowledge base. Add your OpenAI API key for full AI responses.
+          <span className="font-medium">Offline mode</span> — responses from built-in knowledge base. Get a free Groq API key for AI-powered responses.
         </div>
       )}
 

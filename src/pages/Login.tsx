@@ -27,15 +27,15 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex">
+      {/* Desktop: Full split panel with blurry medical image */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-center p-12">
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200&q=80"
             alt="Medical study"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover blur-[3px] scale-105"
           />
-          <div className="absolute inset-0 backdrop-blur-[2px]" />
-          <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/85 via-emerald-800/75 to-teal-900/85" />
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/70 via-emerald-800/60 to-teal-900/70" />
         </div>
         <div className="relative z-10 text-white max-w-md">
           <div className="w-16 h-16 bg-white/15 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-8 border border-white/20 shadow-glow-green">
@@ -60,14 +60,24 @@ export default function Login() {
         </div>
       </div>
 
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 bg-white">
+      {/* Mobile: Blurry image background behind form */}
+      <div className="lg:hidden fixed inset-0 z-0">
+        <img
+          src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80"
+          alt="Medical study"
+          className="w-full h-full object-cover blur-[4px] scale-110"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-emerald-900/60 via-emerald-900/40 to-white/95" />
+      </div>
+
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 relative z-10 lg:bg-white">
         <div className="w-full max-w-md animate-fade-in">
           <div className="lg:hidden text-center mb-8">
             <div className="w-14 h-14 gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-glow-green">
               <span className="text-2xl text-white font-extrabold">M</span>
             </div>
-            <h1 className="text-2xl font-extrabold text-gray-900 tracking-tight">MidWise</h1>
-            <p className="text-sm text-gray-500 mt-1">Midwifery Study Platform</p>
+            <h1 className="text-2xl font-extrabold text-white tracking-tight">MidWise</h1>
+            <p className="text-sm text-white/70 mt-1">Midwifery Study Platform</p>
           </div>
 
           <div className="hidden lg:block mb-8">
@@ -87,7 +97,7 @@ export default function Login() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4 lg:bg-white lg:p-6 lg:rounded-2xl lg:shadow-elevated">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Email</label>
               <div className="relative">

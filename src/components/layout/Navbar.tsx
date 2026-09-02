@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, BookOpen, Home, GraduationCap, Brain, Trophy, User, LogOut, BookMarked } from 'lucide-react'
+import { Menu, X, BookOpen, Home, GraduationCap, Brain, Trophy, User, LogOut, BookMarked, Timer } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 
 export default function Navbar() {
@@ -13,6 +13,7 @@ export default function Navbar() {
     { to: '/subjects', label: 'Subjects', icon: BookOpen },
     { to: '/materials', label: 'Materials', icon: BookMarked },
     { to: '/practice', label: 'Practice', icon: GraduationCap },
+    { to: '/subjects/exam', label: 'Exam', icon: Timer },
     { to: '/ai-tutor', label: 'AI Tutor', icon: Brain },
     { to: '/leaderboard', label: 'Leaderboard', icon: Trophy },
   ]
@@ -35,7 +36,7 @@ export default function Navbar() {
                 <Link
                   key={link.to}
                   to={link.to}
-                  className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                  className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
                     isActive
                       ? 'bg-emerald-600 text-white shadow-soft'
                       : 'text-gray-500 hover:text-gray-900 hover:bg-white/80'
