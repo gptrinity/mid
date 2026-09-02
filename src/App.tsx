@@ -6,6 +6,8 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import Subjects from './pages/Subjects'
+import Materials from './pages/Materials'
+import MaterialDetail from './pages/MaterialDetail'
 import Practice from './pages/Practice'
 import ExamSelect from './pages/ExamSelect'
 import ExamActive from './pages/ExamActive'
@@ -47,6 +49,8 @@ function AppRoutes() {
       <Route path="/dashboard" element={<ProtectedRoute><AuthenticatedLayout><Dashboard /></AuthenticatedLayout></ProtectedRoute>} />
       <Route path="/subjects" element={<ProtectedRoute><AuthenticatedLayout><Subjects /></AuthenticatedLayout></ProtectedRoute>} />
       <Route path="/subjects/exam" element={<ProtectedRoute><AuthenticatedLayout><ExamSelect /></AuthenticatedLayout></ProtectedRoute>} />
+      <Route path="/materials" element={<ProtectedRoute><AuthenticatedLayout><Materials /></AuthenticatedLayout></ProtectedRoute>} />
+      <Route path="/materials/:subjectId" element={<ProtectedRoute><AuthenticatedLayout><MaterialDetail /></AuthenticatedLayout></ProtectedRoute>} />
       <Route path="/practice" element={<ProtectedRoute><AuthenticatedLayout><Practice /></AuthenticatedLayout></ProtectedRoute>} />
       <Route path="/practice/:subjectId" element={<ProtectedRoute><AuthenticatedLayout><Practice /></AuthenticatedLayout></ProtectedRoute>} />
       <Route path="/exam/active" element={<ProtectedRoute><AuthenticatedLayout><ExamActive /></AuthenticatedLayout></ProtectedRoute>} />

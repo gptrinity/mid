@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Timer, Hash, BookOpen, Play, AlertCircle } from 'lucide-react'
 import { subjects } from '../data/subjects'
-import { getQuestionsBySubject, allQuestions } from '../data'
+import { getQuestionsBySubject, allQuestions, getQuestionCountBySubject } from '../data'
 import type { Question } from '../types'
 
 export default function ExamSelect() {
@@ -60,7 +60,7 @@ export default function ExamSelect() {
             <option value="">Select a subject</option>
             <option value="all">All Subjects (Mixed)</option>
             {subjects.map(s => (
-              <option key={s.id} value={s.id}>{s.icon} {s.name} ({s.questionCount} Q)</option>
+              <option key={s.id} value={s.id}>{s.icon} {s.name} ({getQuestionCountBySubject(s.id)} Q)</option>
             ))}
           </select>
         </div>

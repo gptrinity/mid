@@ -1,8 +1,8 @@
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { Search, Filter, BookOpen, ChevronRight } from 'lucide-react'
+import { Search, Filter, BookMarked, ChevronRight } from 'lucide-react'
 import { subjects } from '../data/subjects'
-import { getQuestionCountBySubject } from '../data'
+import { useStudyProgress } from '../hooks/useStudyProgress'
 import type { Level } from '../types'
 
 const levels: { value: Level | 'all'; label: string }[] = [
@@ -34,9 +34,10 @@ const levelBgColors: Record<number, string> = {
   400: 'bg-amber-50',
 }
 
-export default function Subjects() {
+export default function Materials() {
   const [search, setSearch] = useState('')
   const [selectedLevel, setSelectedLevel] = useState<Level | 'all'>('all')
+  const { getStudiedCount } = useStudyProgress()
 
   const filtered = useMemo(() => {
     return subjects.filter(s => {
@@ -60,12 +61,12 @@ export default function Subjects() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 animate-fade-in">
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
-          <div className="w-10 h-10 gradient-primary rounded-xl flex items-center justify-center shadow-soft">
-            <BookOpen className="text-white" size={20} />
+          <div className="w-10 h-10 gradient-blue rounded-xl flex items-center justify-center shadow-soft">
+            <BookMarked className="text-white" size={20} />
           </div>
           <div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Subjects</h1>
-            <p className="text-sm text-gray-500">{subjects.length} subjects across 4 levels</p>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Study Materials</h1>
+            <p className="text-sm text-gray-500">{subjects.length} subjects with topics and study notes</p>
           </div>
         </div>
       </div>
@@ -118,33 +119,48 @@ export default function Subjects() {
                   <span className="text-xs text-gray-400 font-medium">({subs.length} subjects)</span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                  {subs.map((subject, i) => (
-                    <Link
-                      key={subject.id}
-                      to={`/practice/${subject.id}`}
-                      className="card-modern p-4 group"
-                      style={{ animationDelay: `${i * 40}ms` }}
-                    >
-                      <div className="flex items-start gap-3">
-                        <div className={`w-12 h-12 ${levelBgColors[Number(level)]} rounded-xl flex items-center justify-center text-xl flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}>
-                          {subject.icon}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="font-semibold text-gray-900 text-sm group-hover:text-emerald-600 transition-colors">{subject.name}</p>
-                          <p className="text-xs text-gray-500 mt-1 line-clamp-2">{subject.description}</p>
-                          <div className="flex items-center gap-2 mt-2">
-                            <span className={`text-[10px] font-bold ${levelTextColors[Number(level)]} ${levelBgColors[Number(level)]} px-2 py-0.5 rounded-full`}>
-                              {subject.level}L
-                            </span>
-                            <span className="text-[10px] font-medium text-gray-400">
-                              {getQuestionCountBySubject(subject.id)} questions
-                            </span>
+                  {subs.map((subject, i) => {
+                    const studied = getStudiedCount(subject.id)
+                    const totalTopics = subject.topics.length
+                    const progressPct = totalTopics > 0 ? Math.round((studied / totalTopics) * 100) : 0
+                    return (
+                      <Link
+                        key={subject.id}
+                        to={`/materials/${subject.id}`}
+                        className="card-modern p-4 group"
+                        style={{ animationDelay: `${i * 40}ms` }}
+                      >
+                        <div className="flex items-start gap-3">
+                          <div className={`w-12 h-12 ${levelBgColors[Number(level)]} rounded-xl flex items-center justify-center text-xl flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}>
+                            {subject.icon}
                           </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="font-semibold text-gray-900 text-sm group-hover:text-emerald-600 transition-colors">{subject.name}</p>
+                            <p className="text-xs text-gray-500 mt-1 line-clamp-2">{subject.description}</p>
+                            <div className="flex items-center gap-2 mt-2">
+                              <span className={`text-[10px] font-bold ${levelTextColors[Number(level)]} ${levelBgColors[Number(level)]} px-2 py-0.5 rounded-full`}>
+                                {subject.level}L
+                              </span>
+                              <span className="text-[10px] font-medium text-gray-400">
+                                {totalTopics} topics
+                              </span>
+                              {studied > 0 && (
+                                <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+                                  {studied}/{totalTopics} studied
+                                </span>
+                              )}
+                            </div>
+                            {studied > 0 && (
+                              <div className="mt-2 w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                                <div className="h-full bg-emerald-500 rounded-full transition-all duration-500" style={{ width: `${progressPct}%` }} />
+                              </div>
+                            )}
+                          </div>
+                          <ChevronRight className="text-gray-300 group-hover:text-emerald-500 transition-colors flex-shrink-0 mt-1" size={16} />
                         </div>
-                        <ChevronRight className="text-gray-300 group-hover:text-emerald-500 transition-colors flex-shrink-0 mt-1" size={16} />
-                      </div>
-                    </Link>
-                  ))}
+                      </Link>
+                    )
+                  })}
                 </div>
               </div>
             ))}

@@ -29,6 +29,7 @@ import { leadershipQuestions } from './leadership'
 import { safeMotherhoodQuestions } from './safe-motherhood'
 import { perioperativeQuestions } from './perioperative'
 import { maleReproductiveQuestions } from './male-reproductive'
+import { subjects } from './subjects'
 
 export const allQuestions: Question[] = [
   ...historyMidwiferyQuestions,
@@ -65,6 +66,14 @@ export const allQuestions: Question[] = [
 
 export function getQuestionsBySubject(subjectId: string): Question[] {
   return allQuestions.filter(q => q.subject === subjectId)
+}
+
+export function getQuestionCountBySubject(subjectId: string): number {
+  return allQuestions.filter(q => q.subject === subjectId).length
+}
+
+export function getSubjectById(subjectId: string) {
+  return subjects.find(s => s.id === subjectId)
 }
 
 export function getQuestionsByLevel(level: number | string): Question[] {

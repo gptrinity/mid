@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, BookOpen, Home, GraduationCap, Brain, Trophy, User, LogOut } from 'lucide-react'
+import { Menu, X, BookOpen, Home, GraduationCap, Brain, Trophy, User, LogOut, BookMarked } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 
 export default function Navbar() {
@@ -11,6 +11,7 @@ export default function Navbar() {
   const navLinks = [
     { to: '/dashboard', label: 'Dashboard', icon: Home },
     { to: '/subjects', label: 'Subjects', icon: BookOpen },
+    { to: '/materials', label: 'Materials', icon: BookMarked },
     { to: '/practice', label: 'Practice', icon: GraduationCap },
     { to: '/ai-tutor', label: 'AI Tutor', icon: Brain },
     { to: '/leaderboard', label: 'Leaderboard', icon: Trophy },

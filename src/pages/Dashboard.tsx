@@ -1,14 +1,17 @@
 import { Link } from 'react-router-dom'
-import { BookOpen, GraduationCap, Brain, Star, TrendingUp, ChevronRight, Sparkles, Zap, ArrowRight } from 'lucide-react'
+import { BookOpen, GraduationCap, Brain, TrendingUp, ChevronRight, Sparkles, Zap, ArrowRight, BookMarked } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { subjects } from '../data/subjects'
-import { allQuestions } from '../data'
+import { allQuestions, getQuestionCountBySubject } from '../data'
+import { useStudyProgress } from '../hooks/useStudyProgress'
 
 export default function Dashboard() {
   const { user } = useAuth()
+  const { getStudiedCount, getTotalStudied } = useStudyProgress()
 
   const totalQuestions = allQuestions.length
   const totalSubjects = subjects.length
+  const totalStudied = getTotalStudied()
   const levelCounts = [100, 200, 300, 400].map(l => ({
     level: l,
     count: subjects.filter(s => s.level === l).length,
@@ -36,8 +39,8 @@ export default function Dashboard() {
           <Link to="/practice" className="bg-white/15 hover:bg-white/25 backdrop-blur-sm text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 border border-white/10 hover:border-white/20">
             <GraduationCap size={16} /> Start Practice <ArrowRight size={14} />
           </Link>
-          <Link to="/subjects" className="bg-white/15 hover:bg-white/25 backdrop-blur-sm text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 border border-white/10 hover:border-white/20">
-            <BookOpen size={16} /> Take Exam <ArrowRight size={14} />
+          <Link to="/materials" className="bg-white/15 hover:bg-white/25 backdrop-blur-sm text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 border border-white/10 hover:border-white/20">
+            <BookMarked size={16} /> Study Materials <ArrowRight size={14} />
           </Link>
         </div>
       </div>
@@ -46,8 +49,8 @@ export default function Dashboard() {
         {[
           { icon: BookOpen, label: 'Subjects', value: totalSubjects, color: 'text-emerald-600', bg: 'bg-emerald-50', border: 'border-emerald-100' },
           { icon: TrendingUp, label: 'Questions', value: totalQuestions, color: 'text-blue-600', bg: 'bg-blue-50', border: 'border-blue-100' },
-          { icon: Star, label: 'Exams Taken', value: '0', color: 'text-amber-600', bg: 'bg-amber-50', border: 'border-amber-100' },
-          { icon: Brain, label: 'AI Tutor', value: 'Ready', color: 'text-purple-600', bg: 'bg-purple-50', border: 'border-purple-100' },
+          { icon: BookMarked, label: 'Topics Studied', value: totalStudied, color: 'text-purple-600', bg: 'bg-purple-50', border: 'border-purple-100' },
+          { icon: Brain, label: 'AI Tutor', value: 'Ready', color: 'text-amber-600', bg: 'bg-amber-50', border: 'border-amber-100' },
         ].map((stat, i) => (
           <div key={i} className={`card-modern p-4 sm:p-5 border ${stat.border} animate-slide-up stagger-${i + 1}`}>
             <div className={`w-10 h-10 ${stat.bg} rounded-xl flex items-center justify-center mb-3`}>
@@ -70,14 +73,14 @@ export default function Dashboard() {
             Start now <ArrowRight size={14} />
           </div>
         </Link>
-        <Link to="/subjects" className="group card-modern p-5 border border-blue-100 hover:border-blue-200">
+        <Link to="/materials" className="group card-modern p-5 border border-blue-100 hover:border-blue-200">
           <div className="w-12 h-12 gradient-blue rounded-2xl flex items-center justify-center mb-4">
-            <BookOpen className="text-white" size={24} />
+            <BookMarked className="text-white" size={24} />
           </div>
-          <h3 className="text-base font-bold text-gray-900 mb-1">Exam Mode</h3>
-          <p className="text-sm text-gray-500 leading-relaxed">Timed exams with grading system and results</p>
+          <h3 className="text-base font-bold text-gray-900 mb-1">Study Materials</h3>
+          <p className="text-sm text-gray-500 leading-relaxed">Browse topics and track your study progress</p>
           <div className="mt-3 flex items-center gap-1 text-blue-600 text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
-            Start now <ArrowRight size={14} />
+            Browse now <ArrowRight size={14} />
           </div>
         </Link>
         <Link to="/ai-tutor" className="group card-modern p-5 border border-purple-100 hover:border-purple-200">
@@ -115,20 +118,29 @@ export default function Dashboard() {
           </Link>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {subjects.filter(s => s.level === 200 || s.level === 300).slice(0, 6).map(subject => (
-            <Link
-              key={subject.id}
-              to={`/practice/${subject.id}`}
-              className="card-modern flex items-center gap-3 p-4 group"
-            >
-              <div className="w-11 h-11 bg-emerald-50 rounded-xl flex items-center justify-center text-xl flex-shrink-0 group-hover:bg-emerald-100 transition-colors">{subject.icon}</div>
-              <div className="flex-1 min-w-0">
-                <p className="font-semibold text-gray-900 text-sm truncate">{subject.name}</p>
-                <p className="text-xs text-gray-500 mt-0.5">{subject.questionCount} questions</p>
-              </div>
-              <span className="text-[11px] font-bold bg-emerald-50 text-emerald-600 px-2.5 py-0.5 rounded-full">{subject.level}L</span>
-            </Link>
-          ))}
+          {subjects.filter(s => s.level === 200 || s.level === 300).slice(0, 6).map(subject => {
+            const studied = getStudiedCount(subject.id)
+            const total = subject.topics.length
+            return (
+              <Link
+                key={subject.id}
+                to={`/practice/${subject.id}`}
+                className="card-modern flex items-center gap-3 p-4 group"
+              >
+                <div className="w-11 h-11 bg-emerald-50 rounded-xl flex items-center justify-center text-xl flex-shrink-0 group-hover:bg-emerald-100 transition-colors">{subject.icon}</div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-gray-900 text-sm truncate">{subject.name}</p>
+                  <p className="text-xs text-gray-500 mt-0.5">{getQuestionCountBySubject(subject.id)} questions</p>
+                  {studied > 0 && (
+                    <div className="mt-1 w-full h-1 bg-gray-100 rounded-full overflow-hidden">
+                      <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${Math.round((studied / total) * 100)}%` }} />
+                    </div>
+                  )}
+                </div>
+                <span className="text-[11px] font-bold bg-emerald-50 text-emerald-600 px-2.5 py-0.5 rounded-full">{subject.level}L</span>
+              </Link>
+            )
+          })}
         </div>
       </div>
     </div>

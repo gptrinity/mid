@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { CheckCircle, XCircle, ArrowRight, ChevronLeft, BookOpen } from 'lucide-react'
 import { subjects } from '../data/subjects'
-import { getQuestionsBySubject } from '../data'
+import { getQuestionsBySubject, getQuestionCountBySubject } from '../data'
 import type { Question } from '../types'
 
 export default function Practice() {
@@ -75,7 +75,7 @@ export default function Practice() {
                 <div className="w-11 h-11 bg-emerald-50 rounded-xl flex items-center justify-center text-xl group-hover:bg-emerald-100 group-hover:scale-110 transition-all duration-300">{subject.icon}</div>
                 <div className="flex-1 min-w-0">
                   <p className="font-semibold text-gray-900 text-sm group-hover:text-emerald-600 transition-colors">{subject.name}</p>
-                  <p className="text-xs text-gray-500">{subject.questionCount} questions</p>
+                  <p className="text-xs text-gray-500">{getQuestionCountBySubject(subject.id)} questions</p>
                 </div>
               </div>
             </button>

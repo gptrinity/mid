@@ -52,7 +52,6 @@ export interface SubjectInfo {
   description: string
   icon: string
   level: Level
-  questionCount: number
   topics: string[]
 }
 
@@ -90,4 +89,8 @@ export interface UserProfile {
 export interface ChatMessage {
   role: 'user' | 'assistant'
   content: string
+}
+
+export interface StudiedTopics {
+  [subjectId: string]: string[]
 }

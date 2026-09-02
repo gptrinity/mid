@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
-import { Send, Brain, Loader2, Bot, User } from 'lucide-react'
-import { askAITutor } from '../lib/ai'
+import { Send, Brain, Loader2, Bot, User, WifiOff } from 'lucide-react'
+import ReactMarkdown from 'react-markdown'
+import { askAITutor, isAIEnabled } from '../lib/ai'
 
 interface Message {
   role: 'user' | 'assistant'
@@ -13,6 +14,13 @@ const suggestedPrompts = [
   'Stages of normal labour',
   'Management of PPH',
   'Eclampsia nursing care',
+  'Gestational diabetes',
+  'Shoulder dystocia',
+  'Cord prolapse management',
+  'Neonatal resuscitation steps',
+  'Family planning methods',
+  'Magnesium sulfate dosing',
+  'Perinatal mental health',
 ]
 
 export default function AITutor() {
@@ -55,6 +63,13 @@ export default function AITutor() {
         </div>
       </div>
 
+      {!isAIEnabled() && (
+        <div className="mb-3 flex items-center gap-2 bg-amber-50 border border-amber-200/60 rounded-xl px-3 py-2 text-xs text-amber-700 animate-fade-in">
+          <WifiOff size={14} />
+          <span className="font-medium">Offline mode</span> — responses are from a built-in knowledge base. Add your OpenAI API key for full AI responses.
+        </div>
+      )}
+
       <div className="flex-1 overflow-y-auto bg-white rounded-2xl shadow-card border border-gray-100 p-4 mb-4 space-y-4">
         {messages.map((msg, idx) => (
           <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} animate-slide-up`}>
@@ -69,7 +84,11 @@ export default function AITutor() {
                   ? 'bg-emerald-600 text-white rounded-br-md shadow-soft'
                   : 'bg-gray-50 text-gray-800 rounded-bl-md border border-gray-100'
               }`}>
-                {msg.content.split('\n').map((line, i) => <p key={i} className={i > 0 ? 'mt-2' : ''}>{line}</p>)}
+                {msg.role === 'user' ? (
+                  <p>{msg.content}</p>
+                ) : (
+                  <div className="prose prose-sm prose-gray max-w-none prose-headings:font-bold prose-p:my-1 prose-ul:my-1 prose-li:my-0 prose-strong:text-gray-900"><ReactMarkdown>{msg.content}</ReactMarkdown></div>
+                )}
               </div>
               {msg.role === 'user' && (
                 <div className="w-7 h-7 bg-emerald-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
