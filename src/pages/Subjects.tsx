@@ -15,21 +15,21 @@ const levels: { value: Level | 'all'; label: string }[] = [
 ]
 
 const levelColors: Record<number, string> = {
-  100: 'bg-emerald-500',
+  100: 'bg-sky-500',
   200: 'bg-blue-500',
   300: 'bg-purple-500',
   400: 'bg-amber-500',
 }
 
 const levelTextColors: Record<number, string> = {
-  100: 'text-emerald-600',
+  100: 'text-sky-600',
   200: 'text-blue-600',
   300: 'text-purple-600',
   400: 'text-amber-600',
 }
 
 const levelBgColors: Record<number, string> = {
-  100: 'bg-emerald-50',
+  100: 'bg-sky-50',
   200: 'bg-blue-50',
   300: 'bg-purple-50',
   400: 'bg-amber-50',
@@ -90,8 +90,8 @@ export default function Subjects() {
               onClick={() => setSelectedLevel(l.value)}
               className={`px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 ${
                 selectedLevel === l.value
-                  ? 'bg-emerald-600 text-white shadow-soft'
-                  : 'bg-white text-gray-500 border border-gray-200 hover:border-emerald-300 hover:text-emerald-600'
+                  ? 'bg-sky-600 text-white shadow-soft'
+                  : 'bg-white text-gray-500 border border-gray-200 hover:border-sky-300 hover:text-sky-600'
               }`}
             >
               {l.label}
@@ -132,7 +132,7 @@ export default function Subjects() {
                           {subject.icon}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="font-semibold text-gray-900 text-sm group-hover:text-emerald-600 transition-colors">{subject.name}</p>
+                          <p className="font-semibold text-gray-900 text-sm group-hover:text-sky-600 transition-colors">{subject.name}</p>
                           <p className="text-xs text-gray-500 mt-1 line-clamp-2">{subject.description}</p>
                           <div className="flex items-center gap-2 mt-2">
                             <span className={`text-[10px] font-bold ${levelTextColors[Number(level)]} ${levelBgColors[Number(level)]} px-2 py-0.5 rounded-full`}>
@@ -143,7 +143,7 @@ export default function Subjects() {
                             </span>
                           </div>
                         </div>
-                        <ChevronRight className="text-gray-300 group-hover:text-emerald-500 transition-colors flex-shrink-0 mt-1" size={16} />
+                        <ChevronRight className="text-gray-300 group-hover:text-sky-500 transition-colors flex-shrink-0 mt-1" size={16} />
                       </div>
                     </Link>
                   ))}

@@ -49,7 +49,7 @@ export default function ExamSelect() {
       <div className="card-modern p-5 sm:p-6 mt-8 space-y-6">
         <div>
           <label className="flex items-center gap-2 text-sm font-bold text-gray-700 mb-3">
-            <BookOpen size={14} className="text-emerald-500" />
+            <BookOpen size={14} className="text-sky-500" />
             Subject
           </label>
           <select
@@ -77,7 +77,7 @@ export default function ExamSelect() {
                 onClick={() => setQuestionCount(count)}
                 className={`py-3.5 rounded-xl border-2 font-bold text-sm transition-all duration-200 ${
                   questionCount === count
-                    ? 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-soft'
+                    ? 'border-sky-500 bg-sky-50 text-sky-700 shadow-soft'
                     : 'border-gray-200 text-gray-500 hover:border-gray-300 hover:bg-gray-50'
                 }`}
               >
@@ -99,7 +99,7 @@ export default function ExamSelect() {
                 onClick={() => setTimeLimit(time)}
                 className={`py-3.5 rounded-xl border-2 font-bold text-sm transition-all duration-200 ${
                   timeLimit === time
-                    ? 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-soft'
+                    ? 'border-sky-500 bg-sky-50 text-sky-700 shadow-soft'
                     : 'border-gray-200 text-gray-500 hover:border-gray-300 hover:bg-gray-50'
                 }`}
               >
@@ -109,9 +109,9 @@ export default function ExamSelect() {
           </div>
         </div>
 
-        <div className="bg-emerald-50 rounded-xl p-4 flex items-center justify-between text-sm border border-emerald-100">
-          <span className="text-emerald-600 font-medium">Estimated time</span>
-          <span className="font-bold text-emerald-700">{timeLimit} minutes</span>
+        <div className="bg-sky-50 rounded-xl p-4 flex items-center justify-between text-sm border border-sky-100">
+          <span className="text-sky-600 font-medium">Estimated time</span>
+          <span className="font-bold text-sky-700">{timeLimit} minutes</span>
         </div>
 
         {!selectedSubject && (

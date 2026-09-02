@@ -18,7 +18,7 @@ import Profile from './pages/Profile'
 
 function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50/50 via-white to-teal-50/30">
+    <div className="min-h-screen bg-gradient-to-br from-sky-50/50 via-white to-sky-50/30">
       <Navbar />
       <main>{children}</main>
     </div>
@@ -32,10 +32,10 @@ function AppRoutes() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="flex flex-col items-center gap-4 animate-fade-in">
-          <div className="w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center shadow-glow-green animate-pulse-soft">
+          <div className="w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center shadow-glow-sky animate-pulse-soft">
             <span className="text-2xl text-white font-extrabold">M</span>
           </div>
-          <div className="w-8 h-8 border-2 border-emerald-200 border-t-emerald-600 rounded-full animate-spin" />
+          <div className="w-8 h-8 border-2 border-sky-200 border-t-sky-600 rounded-full animate-spin" />
         </div>
       </div>
     )

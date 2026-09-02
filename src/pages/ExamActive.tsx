@@ -95,7 +95,7 @@ export default function ExamActive() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 animate-fade-in">
       <div className="sticky top-16 sm:top-20 z-30 mb-6">
-        <div className="glass-strong rounded-2xl border border-emerald-100/50 shadow-card p-3 sm:p-4">
+        <div className="glass-strong rounded-2xl border border-sky-100/50 shadow-card p-3 sm:p-4">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 flex-1 min-w-0">
               <span className="text-sm font-bold text-gray-700 whitespace-nowrap">
@@ -114,7 +114,7 @@ export default function ExamActive() {
                   <circle cx="20" cy="20" r={radius} fill="none" stroke={isLowTime ? '#fecaca' : '#e5e7eb'} strokeWidth="3" />
                   <circle cx="20" cy="20" r={radius} fill="none" stroke={isLowTime ? '#ef4444' : '#10b981'} strokeWidth="3" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={strokeDashoffset} className="transition-all duration-1000" />
                 </svg>
-                <span className={`text-[10px] font-bold ${isLowTime ? 'text-red-500' : 'text-emerald-600'}`}>
+                <span className={`text-[10px] font-bold ${isLowTime ? 'text-red-500' : 'text-sky-600'}`}>
                   {Math.ceil(timeLeft / 60)}
                 </span>
               </div>
@@ -129,7 +129,7 @@ export default function ExamActive() {
       <div className="card-modern p-5 sm:p-6 mb-6">
         <div className="flex items-center gap-2 mb-4">
           <span className="text-[10px] font-bold uppercase tracking-widest bg-gray-100 text-gray-500 px-2.5 py-1 rounded-full">{question.difficulty}</span>
-          <span className="text-[10px] font-bold uppercase tracking-widest bg-emerald-50 text-emerald-600 px-2.5 py-1 rounded-full">Level {question.level}</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest bg-sky-50 text-sky-600 px-2.5 py-1 rounded-full">Level {question.level}</span>
         </div>
         <p className="text-base sm:text-lg font-semibold text-gray-900 leading-relaxed">{question.question}</p>
         <div className="mt-6 space-y-3">
@@ -139,13 +139,13 @@ export default function ExamActive() {
               onClick={() => handleAnswer(idx)}
               className={`w-full text-left p-4 rounded-xl border-2 transition-all duration-300 ${
                 answers[currentIdx] === idx
-                  ? 'border-emerald-500 bg-emerald-50 ring-2 ring-emerald-100'
+                  ? 'border-sky-500 bg-sky-50 ring-2 ring-sky-100'
                   : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
               }`}
             >
               <div className="flex items-center gap-3">
                 <span className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0 transition-all duration-300 ${
-                  answers[currentIdx] === idx ? 'bg-emerald-500 text-white scale-110' : 'bg-gray-100 text-gray-500'
+                  answers[currentIdx] === idx ? 'bg-sky-500 text-white scale-110' : 'bg-gray-100 text-gray-500'
                 }`}>
                   {String.fromCharCode(65 + idx)}
                 </span>
@@ -201,9 +201,9 @@ export default function ExamActive() {
                   onClick={() => { setCurrentIdx(idx); setShowNav(false) }}
                   className={`w-9 h-9 rounded-lg text-xs font-bold transition-all ${
                     idx === currentIdx
-                      ? 'bg-emerald-600 text-white shadow-soft scale-110'
+                      ? 'bg-sky-600 text-white shadow-soft scale-110'
                       : isCorrect
-                      ? 'bg-emerald-100 text-emerald-700'
+                      ? 'bg-sky-100 text-sky-700'
                       : isWrong
                       ? 'bg-red-100 text-red-600'
                       : answers[idx] !== null

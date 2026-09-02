@@ -39,7 +39,7 @@ export default function Leaderboard() {
             return (
               <div key={entry.rank} className="flex flex-col items-center animate-slide-up" style={{ animationDelay: `${displayIdx * 100}ms` }}>
                 <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center mb-2 ${
-                  rank === 1 ? 'bg-amber-100 ring-3 ring-amber-300 shadow-glow-green' : rank === 2 ? 'bg-gray-100 ring-2 ring-gray-300' : 'bg-orange-50 ring-2 ring-orange-200'
+                  rank === 1 ? 'bg-amber-100 ring-3 ring-amber-300 shadow-glow-sky' : rank === 2 ? 'bg-gray-100 ring-2 ring-gray-300' : 'bg-orange-50 ring-2 ring-orange-200'
                 }`}>
                   {rank === 1 ? <Crown className="text-amber-500" size={22} /> : <Medal className={rank === 2 ? 'text-gray-400' : 'text-orange-400'} size={20} />}
                 </div>
@@ -60,16 +60,16 @@ export default function Leaderboard() {
         {rest.map((entry, idx) => (
           <div
             key={entry.rank}
-            className={`flex items-center gap-4 px-5 py-3.5 ${idx > 0 ? 'border-t border-gray-100' : ''} hover:bg-emerald-50/50 transition-colors group`}
+            className={`flex items-center gap-4 px-5 py-3.5 ${idx > 0 ? 'border-t border-gray-100' : ''} hover:bg-sky-50/50 transition-colors group`}
           >
-            <span className="w-8 h-8 rounded-lg bg-gray-100 group-hover:bg-emerald-100 flex items-center justify-center text-xs font-bold text-gray-500 group-hover:text-emerald-600 transition-colors">
+            <span className="w-8 h-8 rounded-lg bg-gray-100 group-hover:bg-sky-100 flex items-center justify-center text-xs font-bold text-gray-500 group-hover:text-sky-600 transition-colors">
               {entry.rank}
             </span>
             <div className="flex-1 min-w-0">
               <p className="font-semibold text-gray-900 text-sm">{entry.name}</p>
               <p className="text-xs text-gray-500">Level {entry.level}</p>
             </div>
-            <div className="flex items-center gap-1 text-emerald-600">
+            <div className="flex items-center gap-1 text-sky-600">
               <TrendingUp size={12} />
               <span className="text-sm font-bold">{entry.score}%</span>
             </div>
@@ -77,9 +77,9 @@ export default function Leaderboard() {
         ))}
       </div>
 
-      <div className="mt-6 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200/50 rounded-2xl p-5 text-center">
-        <Award className="text-emerald-600 mx-auto mb-2" size={24} />
-        <p className="text-sm font-semibold text-emerald-700">Complete practice and exam questions to appear on the leaderboard!</p>
+      <div className="mt-6 bg-gradient-to-r from-sky-50 to-sky-50 border border-sky-200/50 rounded-2xl p-5 text-center">
+        <Award className="text-sky-600 mx-auto mb-2" size={24} />
+        <p className="text-sm font-semibold text-sky-700">Complete practice and exam questions to appear on the leaderboard!</p>
       </div>
     </div>
   )

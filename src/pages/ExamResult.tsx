@@ -14,7 +14,7 @@ export default function ExamResult() {
   const incorrect = total - score
 
   const getGrade = (pct: number) => {
-    if (pct >= 90) return { grade: 'A', color: 'text-emerald-600', bg: 'bg-emerald-50', ring: 'ring-emerald-200', label: 'Excellent!' }
+    if (pct >= 90) return { grade: 'A', color: 'text-sky-600', bg: 'bg-sky-50', ring: 'ring-sky-200', label: 'Excellent!' }
     if (pct >= 80) return { grade: 'B', color: 'text-blue-600', bg: 'bg-blue-50', ring: 'ring-blue-200', label: 'Great job!' }
     if (pct >= 70) return { grade: 'C', color: 'text-amber-600', bg: 'bg-amber-50', ring: 'ring-amber-200', label: 'Good effort!' }
     if (pct >= 60) return { grade: 'D', color: 'text-orange-600', bg: 'bg-orange-50', ring: 'ring-orange-200', label: 'Needs improvement' }
@@ -45,7 +45,7 @@ export default function ExamResult() {
             <circle cx="60" cy="60" r="54" fill="none" stroke="#e2e8f0" strokeWidth="8" />
             <circle
               cx="60" cy="60" r="54" fill="none"
-              className={`${gradeInfo.color === 'text-emerald-600' ? 'stroke-emerald-500' : gradeInfo.color === 'text-blue-600' ? 'stroke-blue-500' : gradeInfo.color === 'text-amber-600' ? 'stroke-amber-500' : gradeInfo.color === 'text-orange-600' ? 'stroke-orange-500' : 'stroke-red-500'}`}
+              className={`${gradeInfo.color === 'text-sky-600' ? 'stroke-sky-500' : gradeInfo.color === 'text-blue-600' ? 'stroke-blue-500' : gradeInfo.color === 'text-amber-600' ? 'stroke-amber-500' : gradeInfo.color === 'text-orange-600' ? 'stroke-orange-500' : 'stroke-red-500'}`}
               strokeWidth="8"
               strokeLinecap="round"
               strokeDasharray={circumference}
@@ -60,10 +60,10 @@ export default function ExamResult() {
         </div>
 
         <div className="grid grid-cols-3 gap-4 max-w-sm mx-auto">
-          <div className="bg-emerald-50 rounded-xl p-3 border border-emerald-100">
-            <CheckCircle className="text-emerald-500 mx-auto mb-1" size={18} />
-            <p className="text-lg font-extrabold text-emerald-700">{score}</p>
-            <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">Correct</p>
+          <div className="bg-sky-50 rounded-xl p-3 border border-sky-100">
+            <CheckCircle className="text-sky-500 mx-auto mb-1" size={18} />
+            <p className="text-lg font-extrabold text-sky-700">{score}</p>
+            <p className="text-[10px] font-bold text-sky-600 uppercase tracking-wider">Correct</p>
           </div>
           <div className="bg-red-50 rounded-xl p-3 border border-red-100">
             <XCircle className="text-red-500 mx-auto mb-1" size={18} />
@@ -80,12 +80,12 @@ export default function ExamResult() {
 
       {subjectInfo && (
         <div className="card-modern p-4 mb-6 flex items-center gap-3">
-          <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center text-lg">{subjectInfo.icon}</div>
+          <div className="w-10 h-10 bg-sky-50 rounded-xl flex items-center justify-center text-lg">{subjectInfo.icon}</div>
           <div className="flex-1 min-w-0">
             <p className="font-semibold text-gray-900 text-sm">{subjectInfo.name}</p>
             <p className="text-xs text-gray-500">{mode === 'exam' ? 'Exam' : 'Practice'} Mode</p>
           </div>
-          <div className="flex items-center gap-1 text-emerald-600">
+          <div className="flex items-center gap-1 text-sky-600">
             <Target size={14} />
             <span className="text-sm font-bold">{score}/{total}</span>
           </div>
@@ -98,7 +98,7 @@ export default function ExamResult() {
         </Link>
         <Link
           to={subject !== 'all' ? `/practice/${subject}` : '/practice'}
-          className="flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-emerald-200 text-emerald-700 font-semibold text-sm hover:bg-emerald-50 transition-all"
+          className="flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-sky-200 text-sky-700 font-semibold text-sm hover:bg-sky-50 transition-all"
         >
           <RotateCcw size={16} /> Practice Again
         </Link>

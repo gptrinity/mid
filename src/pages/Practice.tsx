@@ -82,9 +82,9 @@ export default function Practice() {
               className="card-modern p-4 text-left group"
             >
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 bg-emerald-50 rounded-xl flex items-center justify-center text-xl group-hover:bg-emerald-100 group-hover:scale-110 transition-all duration-300">{subject.icon}</div>
+                <div className="w-11 h-11 bg-sky-50 rounded-xl flex items-center justify-center text-xl group-hover:bg-sky-100 group-hover:scale-110 transition-all duration-300">{subject.icon}</div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-gray-900 text-sm group-hover:text-emerald-600 transition-colors">{subject.name}</p>
+                  <p className="font-semibold text-gray-900 text-sm group-hover:text-sky-600 transition-colors">{subject.name}</p>
                   <p className="text-xs text-gray-500">{getQuestionCountBySubject(subject.id)} questions</p>
                 </div>
               </div>
@@ -99,7 +99,7 @@ export default function Practice() {
     return (
       <div className="max-w-4xl mx-auto px-4 py-16 text-center animate-fade-in">
         <p className="text-gray-500 text-lg">No questions found for this subject.</p>
-        <button onClick={() => setSelectedSubject('')} className="mt-4 text-emerald-600 hover:text-emerald-700 font-semibold transition-colors">Choose another subject</button>
+        <button onClick={() => setSelectedSubject('')} className="mt-4 text-sky-600 hover:text-sky-700 font-semibold transition-colors">Choose another subject</button>
       </div>
     )
   }
@@ -113,7 +113,7 @@ export default function Practice() {
           <ChevronLeft size={16} /> Back
         </button>
         <div className="text-right">
-          <p className="text-sm font-bold text-emerald-600">{score}/{answered} correct</p>
+          <p className="text-sm font-bold text-sky-600">{score}/{answered} correct</p>
         </div>
       </div>
 
@@ -130,16 +130,16 @@ export default function Practice() {
       <div className="card-modern p-5 sm:p-6 mb-6">
         <div className="flex items-center gap-2 mb-4">
           <span className="text-[10px] font-bold uppercase tracking-widest bg-gray-100 text-gray-500 px-2.5 py-1 rounded-full">{currentQuestion.difficulty}</span>
-          <span className="text-[10px] font-bold uppercase tracking-widest bg-emerald-50 text-emerald-600 px-2.5 py-1 rounded-full">Level {currentQuestion.level}</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest bg-sky-50 text-sky-600 px-2.5 py-1 rounded-full">Level {currentQuestion.level}</span>
         </div>
         <p className="text-base sm:text-lg font-semibold text-gray-900 leading-relaxed">{currentQuestion.question}</p>
 
         <div className="mt-6 space-y-3">
           {currentQuestion.shuffledOptions.map((option, idx) => {
-            let style = 'border-gray-200 hover:border-emerald-300 hover:bg-emerald-50/50'
+            let style = 'border-gray-200 hover:border-sky-300 hover:bg-sky-50/50'
             if (showResult) {
               if (idx === currentQuestion.shuffledCorrect) {
-                style = 'border-emerald-400 bg-emerald-50 ring-2 ring-emerald-100'
+                style = 'border-sky-400 bg-sky-50 ring-2 ring-sky-100'
               } else if (idx === selectedAnswer && idx !== currentQuestion.shuffledCorrect) {
                 style = 'border-red-400 bg-red-50 ring-2 ring-red-100'
               } else {
@@ -157,7 +157,7 @@ export default function Practice() {
                 <div className="flex items-center gap-3">
                   <span className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0 transition-all duration-300 ${
                     showResult && idx === currentQuestion.shuffledCorrect
-                      ? 'bg-emerald-500 text-white scale-110'
+                      ? 'bg-sky-500 text-white scale-110'
                       : showResult && idx === selectedAnswer
                       ? 'bg-red-500 text-white'
                       : 'bg-gray-100 text-gray-500'
@@ -180,10 +180,10 @@ export default function Practice() {
         {showResult && (
           <div className={`mt-6 p-4 rounded-xl animate-slide-up ${
             selectedAnswer === currentQuestion.shuffledCorrect
-              ? 'bg-emerald-50 border border-emerald-200'
+              ? 'bg-sky-50 border border-sky-200'
               : 'bg-amber-50 border border-amber-200'
           }`}>
-            <p className={`font-bold text-sm mb-1 ${selectedAnswer === currentQuestion.shuffledCorrect ? 'text-emerald-700' : 'text-amber-700'}`}>
+            <p className={`font-bold text-sm mb-1 ${selectedAnswer === currentQuestion.shuffledCorrect ? 'text-sky-700' : 'text-amber-700'}`}>
               {selectedAnswer === currentQuestion.shuffledCorrect ? 'Correct!' : 'Incorrect'}
             </p>
             <p className="text-sm text-gray-600 leading-relaxed">{currentQuestion.explanation}</p>

@@ -8,10 +8,10 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-12 h-12 gradient-primary rounded-2xl flex items-center justify-center shadow-glow-green animate-pulse-soft">
+          <div className="w-12 h-12 gradient-primary rounded-2xl flex items-center justify-center shadow-glow-sky animate-pulse-soft">
             <span className="text-xl text-white font-bold">M</span>
           </div>
-          <div className="w-8 h-8 border-2 border-emerald-200 border-t-emerald-600 rounded-full animate-spin" />
+          <div className="w-8 h-8 border-2 border-sky-200 border-t-sky-600 rounded-full animate-spin" />
         </div>
       </div>
     )

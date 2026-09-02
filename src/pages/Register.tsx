@@ -32,30 +32,30 @@ export default function Register() {
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-center p-12">
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&q=80"
-            alt="Medical student studying"
+            src="https://images.unsplash.com/photo-1749065312657-bf7ccd659791?w=1200&q=80"
+            alt="Midwife assisting a woman in labour"
             className="w-full h-full object-cover blur-[3px] scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/70 via-emerald-800/60 to-teal-900/70" />
+          <div className="absolute inset-0 bg-gradient-to-br from-sky-900/70 via-sky-800/60 to-sky-900/70" />
         </div>
         <div className="relative z-10 text-white max-w-md">
-          <div className="w-16 h-16 bg-white/15 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-8 border border-white/20 shadow-glow-green">
+          <div className="w-16 h-16 bg-white/15 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-8 border border-white/20 shadow-glow-sky">
             <Sparkles className="text-white" size={28} />
           </div>
           <h2 className="text-4xl font-extrabold mb-4 leading-tight tracking-tight">Your Study Journey Starts Here</h2>
-          <p className="text-emerald-100 text-lg leading-relaxed">Join thousands of midwifery students preparing smarter with AI-powered practice and exams.</p>
+          <p className="text-sky-100 text-lg leading-relaxed">Join thousands of midwifery students preparing smarter with AI-powered practice and exams.</p>
           <div className="mt-10 flex gap-8">
             <div>
               <p className="text-3xl font-extrabold">30</p>
-              <p className="text-emerald-200 text-sm">Subjects</p>
+              <p className="text-sky-200 text-sm">Subjects</p>
             </div>
             <div>
               <p className="text-3xl font-extrabold">1200+</p>
-              <p className="text-emerald-200 text-sm">Questions</p>
+              <p className="text-sky-200 text-sm">Questions</p>
             </div>
             <div>
               <p className="text-3xl font-extrabold">5</p>
-              <p className="text-emerald-200 text-sm">Levels</p>
+              <p className="text-sky-200 text-sm">Levels</p>
             </div>
           </div>
         </div>
@@ -64,17 +64,17 @@ export default function Register() {
       {/* Mobile: Blurry image background behind form */}
       <div className="lg:hidden fixed inset-0 z-0">
         <img
-          src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80"
-          alt="Medical student studying"
+          src="https://images.unsplash.com/photo-1749065312657-bf7ccd659791?w=800&q=80"
+          alt="Midwife assisting a woman in labour"
           className="w-full h-full object-cover blur-[4px] scale-110"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-emerald-900/60 via-emerald-900/40 to-white/95" />
+        <div className="absolute inset-0 bg-gradient-to-b from-sky-900/60 via-sky-900/40 to-white/95" />
       </div>
 
       <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 relative z-10 lg:bg-white">
         <div className="w-full max-w-md animate-fade-in">
           <div className="lg:hidden text-center mb-8">
-            <div className="w-14 h-14 gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-glow-green">
+            <div className="w-14 h-14 gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-glow-sky">
               <span className="text-2xl text-white font-extrabold">M</span>
             </div>
             <h1 className="text-2xl font-extrabold text-white tracking-tight">MidWise</h1>
@@ -164,7 +164,7 @@ export default function Register() {
           <div className="mt-8 text-center">
             <p className="text-sm text-gray-500">
               Already have an account?{' '}
-              <Link to="/login" className="text-emerald-600 hover:text-emerald-700 font-semibold transition-colors">Sign In</Link>
+              <Link to="/login" className="text-sky-600 hover:text-sky-700 font-semibold transition-colors">Sign In</Link>
             </p>
           </div>
         </div>

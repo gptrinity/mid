@@ -59,7 +59,7 @@ export default function AITutor() {
           <div>
             <h1 className="text-lg font-extrabold text-gray-900 tracking-tight">AI Tutor</h1>
             <div className="flex items-center gap-1.5">
-              <span className={`w-2 h-2 rounded-full ${provider !== 'offline' ? 'bg-emerald-400 animate-pulse-soft' : 'bg-amber-400'}`} />
+              <span className={`w-2 h-2 rounded-full ${provider !== 'offline' ? 'bg-sky-400 animate-pulse-soft' : 'bg-amber-400'}`} />
               <p className="text-xs text-gray-500 font-medium">
                 {provider === 'groq' && 'Powered by Groq (free)'}
                 {provider === 'openai' && 'Powered by OpenAI'}
@@ -98,7 +98,7 @@ export default function AITutor() {
               )}
               <div className={`px-4 py-3 rounded-2xl text-sm leading-relaxed ${
                 msg.role === 'user'
-                  ? 'bg-emerald-600 text-white rounded-br-md shadow-soft'
+                  ? 'bg-sky-600 text-white rounded-br-md shadow-soft'
                   : 'bg-gray-50 text-gray-800 rounded-bl-md border border-gray-100'
               }`}>
                 {msg.role === 'user' ? (
@@ -108,8 +108,8 @@ export default function AITutor() {
                 )}
               </div>
               {msg.role === 'user' && (
-                <div className="w-7 h-7 bg-emerald-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <User className="text-emerald-600" size={12} />
+                <div className="w-7 h-7 bg-sky-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <User className="text-sky-600" size={12} />
                 </div>
               )}
             </div>

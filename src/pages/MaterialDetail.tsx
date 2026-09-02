@@ -12,7 +12,7 @@ export default function MaterialDetail() {
     return (
       <div className="max-w-4xl mx-auto px-4 py-16 text-center animate-fade-in">
         <p className="text-gray-500 text-lg">Subject not found.</p>
-        <Link to="/materials" className="mt-4 text-emerald-600 hover:text-emerald-700 font-semibold transition-colors inline-block">Back to Materials</Link>
+        <Link to="/materials" className="mt-4 text-sky-600 hover:text-sky-700 font-semibold transition-colors inline-block">Back to Materials</Link>
       </div>
     )
   }
@@ -29,16 +29,16 @@ export default function MaterialDetail() {
 
       <div className="card-modern p-5 sm:p-6 mb-6">
         <div className="flex items-start gap-4">
-          <div className="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0">
+          <div className="w-14 h-14 bg-sky-50 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0">
             {subject.icon}
           </div>
           <div className="flex-1">
             <h1 className="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight">{subject.name}</h1>
             <p className="text-sm text-gray-500 mt-1">{subject.description}</p>
             <div className="flex items-center gap-3 mt-3">
-              <span className="text-xs font-bold bg-emerald-50 text-emerald-600 px-2.5 py-1 rounded-full">{subject.level} Level</span>
+              <span className="text-xs font-bold bg-sky-50 text-sky-600 px-2.5 py-1 rounded-full">{subject.level} Level</span>
               <span className="text-xs font-medium text-gray-400">{totalTopics} topics</span>
-              <span className="text-xs font-bold text-emerald-600">{studiedCount}/{totalTopics} studied</span>
+              <span className="text-xs font-bold text-sky-600">{studiedCount}/{totalTopics} studied</span>
             </div>
           </div>
         </div>
@@ -56,7 +56,7 @@ export default function MaterialDetail() {
 
       <div className="mb-4">
         <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-          <BookMarked size={18} className="text-emerald-500" />
+          <BookMarked size={18} className="text-sky-500" />
           Topics & Chapters
         </h2>
         <p className="text-sm text-gray-500 mt-1">Check off topics as you study them. Your progress is saved automatically.</p>
@@ -69,7 +69,7 @@ export default function MaterialDetail() {
             <div
               key={i}
               className={`card-modern p-4 flex items-center gap-4 transition-all duration-300 ${
-                studied ? 'border-emerald-200 bg-emerald-50/30' : ''
+                studied ? 'border-sky-200 bg-sky-50/30' : ''
               }`}
               style={{ animationDelay: `${i * 50}ms` }}
             >
@@ -78,14 +78,14 @@ export default function MaterialDetail() {
                 className="flex-shrink-0 transition-all duration-200"
               >
                 {studied ? (
-                  <CheckCircle size={24} className="text-emerald-500" />
+                  <CheckCircle size={24} className="text-sky-500" />
                 ) : (
-                  <Circle size={24} className="text-gray-300 hover:text-emerald-400" />
+                  <Circle size={24} className="text-gray-300 hover:text-sky-400" />
                 )}
               </button>
 
               <div className="flex-1 min-w-0">
-                <p className={`font-semibold text-sm ${studied ? 'text-emerald-700' : 'text-gray-900'}`}>{topic}</p>
+                <p className={`font-semibold text-sm ${studied ? 'text-sky-700' : 'text-gray-900'}`}>{topic}</p>
                 <p className="text-xs text-gray-400 mt-0.5">Chapter {i + 1} of {totalTopics}</p>
               </div>
 

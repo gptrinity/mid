@@ -27,7 +27,7 @@ export default function Profile() {
         <div className="gradient-hero-animated h-32 sm:h-36 relative">
           <div className="absolute inset-0 opacity-20">
             <div className="absolute top-4 left-10 w-32 h-32 bg-white/20 rounded-full blur-2xl" />
-            <div className="absolute bottom-4 right-10 w-40 h-40 bg-emerald-300/20 rounded-full blur-2xl" />
+            <div className="absolute bottom-4 right-10 w-40 h-40 bg-sky-300/20 rounded-full blur-2xl" />
           </div>
         </div>
         <div className="px-6 pb-6">
@@ -52,7 +52,7 @@ export default function Profile() {
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
         {[
-          { icon: BookOpen, label: 'Questions', value: allQuestions.length, color: 'text-emerald-600', bg: 'bg-emerald-50' },
+          { icon: BookOpen, label: 'Questions', value: allQuestions.length, color: 'text-sky-600', bg: 'bg-sky-50' },
           { icon: Star, label: 'Subjects', value: subjects.length, color: 'text-blue-600', bg: 'bg-blue-50' },
           { icon: BookMarked, label: 'Topics Studied', value: totalStudied, color: 'text-purple-600', bg: 'bg-purple-50' },
           { icon: Flame, label: 'Streak', value: '0d', color: 'text-red-500', bg: 'bg-red-50' },
@@ -69,9 +69,9 @@ export default function Profile() {
 
       <div className="card-modern p-5 sm:p-6 mb-6">
         <div className="flex items-center gap-2 mb-5">
-          <BookMarked className="text-emerald-500" size={18} />
+          <BookMarked className="text-sky-500" size={18} />
           <h3 className="font-bold text-gray-900">Study Progress</h3>
-          <span className="ml-auto text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">{overallPct}% overall</span>
+          <span className="ml-auto text-xs font-bold text-sky-600 bg-sky-50 px-2.5 py-1 rounded-full">{overallPct}% overall</span>
         </div>
         <div className="w-full h-3 bg-gray-100 rounded-full overflow-hidden mb-5">
           <div className="h-full gradient-primary rounded-full transition-all duration-500" style={{ width: `${overallPct}%` }} />
@@ -94,7 +94,7 @@ export default function Profile() {
                     <p className="font-semibold text-gray-900 text-sm truncate">{subject.name}</p>
                     <div className="flex items-center gap-2 mt-1">
                       <div className="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                        <div className="h-full bg-emerald-500 rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
+                        <div className="h-full bg-sky-500 rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
                       </div>
                       <span className="text-[10px] font-bold text-gray-500">{subject.studied}/{subject.total}</span>
                     </div>
@@ -114,7 +114,7 @@ export default function Profile() {
         <div className="space-y-3">
           {[
             { icon: Award, label: 'Exams Completed', value: '0', color: 'bg-blue-500' },
-            { icon: TrendingUp, label: 'Average Score', value: '--', color: 'bg-emerald-500' },
+            { icon: TrendingUp, label: 'Average Score', value: '--', color: 'bg-sky-500' },
             { icon: Flame, label: 'Study Streak', value: '0 days', color: 'bg-amber-500' },
             { icon: BookOpen, label: 'Favorite Subject', value: '--', color: 'bg-purple-500' },
           ].map(stat => (
