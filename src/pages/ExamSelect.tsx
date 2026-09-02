@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Timer, Hash, BookOpen, Play, AlertCircle } from 'lucide-react'
 import { subjects } from '../data/subjects'
 import { getQuestionsBySubject, allQuestions } from '../data'
 import type { Question } from '../types'
@@ -34,17 +35,27 @@ export default function ExamSelect() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-2">Start Exam</h1>
-      <p className="text-gray-600 mb-8">Configure your exam settings</p>
-
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-6">
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 animate-fade-in">
+      <div className="flex items-center gap-3 mb-2">
+        <div className="w-10 h-10 gradient-blue rounded-xl flex items-center justify-center shadow-soft">
+          <BookOpen className="text-white" size={20} />
+        </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Start Exam</h1>
+          <p className="text-sm text-gray-500">Configure your exam settings and test your knowledge</p>
+        </div>
+      </div>
+
+      <div className="card-modern p-5 sm:p-6 mt-8 space-y-6">
+        <div>
+          <label className="flex items-center gap-2 text-sm font-bold text-gray-700 mb-3">
+            <BookOpen size={14} className="text-emerald-500" />
+            Subject
+          </label>
           <select
             value={selectedSubject}
             onChange={e => setSelectedSubject(e.target.value)}
-            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+            className="input-modern"
           >
             <option value="">Select a subject</option>
             <option value="all">All Subjects (Mixed)</option>
@@ -55,14 +66,19 @@ export default function ExamSelect() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Number of Questions</label>
-          <div className="flex gap-3">
+          <label className="flex items-center gap-2 text-sm font-bold text-gray-700 mb-3">
+            <Hash size={14} className="text-blue-500" />
+            Number of Questions
+          </label>
+          <div className="grid grid-cols-4 gap-2">
             {[15, 30, 60, 90].map(count => (
               <button
                 key={count}
                 onClick={() => setQuestionCount(count)}
-                className={`flex-1 py-2.5 rounded-lg border-2 font-medium transition-colors ${
-                  questionCount === count ? 'border-emerald-500 bg-emerald-50 text-emerald-700' : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                className={`py-3.5 rounded-xl border-2 font-bold text-sm transition-all duration-200 ${
+                  questionCount === count
+                    ? 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-soft'
+                    : 'border-gray-200 text-gray-500 hover:border-gray-300 hover:bg-gray-50'
                 }`}
               >
                 {count}
@@ -72,27 +88,45 @@ export default function ExamSelect() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Time Limit (minutes)</label>
-          <div className="flex gap-3">
+          <label className="flex items-center gap-2 text-sm font-bold text-gray-700 mb-3">
+            <Timer size={14} className="text-amber-500" />
+            Time Limit
+          </label>
+          <div className="grid grid-cols-4 gap-2">
             {[15, 30, 60, 90].map(time => (
               <button
                 key={time}
                 onClick={() => setTimeLimit(time)}
-                className={`flex-1 py-2.5 rounded-lg border-2 font-medium transition-colors ${
-                  timeLimit === time ? 'border-emerald-500 bg-emerald-50 text-emerald-700' : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                className={`py-3.5 rounded-xl border-2 font-bold text-sm transition-all duration-200 ${
+                  timeLimit === time
+                    ? 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-soft'
+                    : 'border-gray-200 text-gray-500 hover:border-gray-300 hover:bg-gray-50'
                 }`}
               >
-                {time} min
+                {time}m
               </button>
             ))}
           </div>
         </div>
 
+        <div className="bg-emerald-50 rounded-xl p-4 flex items-center justify-between text-sm border border-emerald-100">
+          <span className="text-emerald-600 font-medium">Estimated time</span>
+          <span className="font-bold text-emerald-700">{timeLimit} minutes</span>
+        </div>
+
+        {!selectedSubject && (
+          <div className="flex items-center gap-2 text-amber-600 text-sm bg-amber-50 p-3 rounded-xl border border-amber-100">
+            <AlertCircle size={16} />
+            <span>Please select a subject to start</span>
+          </div>
+        )}
+
         <button
           onClick={handleStart}
           disabled={!selectedSubject}
-          className="w-full bg-emerald-600 text-white py-3 rounded-xl font-medium hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="btn-primary w-full flex items-center justify-center gap-2 py-3.5 disabled:opacity-50 disabled:cursor-not-allowed"
         >
+          <Play size={16} />
           Start Exam
         </button>
       </div>

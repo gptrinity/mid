@@ -1,66 +1,110 @@
 import { useSearchParams, Link } from 'react-router-dom'
+import { Trophy, RotateCcw, Home, BookOpen, CheckCircle, XCircle, Clock, Target } from 'lucide-react'
+import { subjects } from '../data/subjects'
 
 export default function ExamResult() {
   const [params] = useSearchParams()
+  const subject = params.get('subject') || 'all'
   const score = parseInt(params.get('score') || '0')
-  const total = parseInt(params.get('total') || '1')
-  const mode = params.get('mode') || 'practice'
+  const total = parseInt(params.get('total') || '0')
   const time = parseInt(params.get('time') || '0')
+  const mode = params.get('mode') || 'practice'
 
-  const percentage = Math.round((score / total) * 100)
+  const percentage = total > 0 ? Math.round((score / total) * 100) : 0
+  const incorrect = total - score
+
   const getGrade = (pct: number) => {
-    if (pct >= 70) return { grade: 'A', color: 'text-green-600', bg: 'bg-green-50', label: 'Excellent' }
-    if (pct >= 60) return { grade: 'B', color: 'text-blue-600', bg: 'bg-blue-50', label: 'Good' }
-    if (pct >= 50) return { grade: 'C', color: 'text-amber-600', bg: 'bg-amber-50', label: 'Fair' }
-    if (pct >= 40) return { grade: 'D', color: 'text-orange-600', bg: 'bg-orange-50', label: 'Pass' }
-    return { grade: 'F', color: 'text-red-600', bg: 'bg-red-50', label: 'Fail' }
+    if (pct >= 90) return { grade: 'A', color: 'text-emerald-600', bg: 'bg-emerald-50', ring: 'ring-emerald-200', label: 'Excellent!' }
+    if (pct >= 80) return { grade: 'B', color: 'text-blue-600', bg: 'bg-blue-50', ring: 'ring-blue-200', label: 'Great job!' }
+    if (pct >= 70) return { grade: 'C', color: 'text-amber-600', bg: 'bg-amber-50', ring: 'ring-amber-200', label: 'Good effort!' }
+    if (pct >= 60) return { grade: 'D', color: 'text-orange-600', bg: 'bg-orange-50', ring: 'ring-orange-200', label: 'Needs improvement' }
+    return { grade: 'F', color: 'text-red-600', bg: 'bg-red-50', ring: 'ring-red-200', label: 'Keep practicing!' }
   }
 
-  const result = getGrade(percentage)
+  const gradeInfo = getGrade(percentage)
+  const subjectInfo = subjects.find(s => s.id === subject)
   const minutes = Math.floor(time / 60)
   const seconds = time % 60
 
+  const circumference = 2 * Math.PI * 54
+  const dashOffset = circumference - (percentage / 100) * circumference
+
   return (
-    <div className="max-w-lg mx-auto px-4 py-12 text-center">
-      <div className="bg-white rounded-2xl border shadow-sm p-8">
-        <h1 className="text-xl font-semibold text-gray-900 mb-6">
-          {mode === 'exam' ? 'Exam' : 'Practice'} Results
-        </h1>
-
-        <div className={`w-32 h-32 rounded-full ${result.bg} flex items-center justify-center mx-auto mb-6`}>
-          <span className={`text-5xl font-bold ${result.color}`}>{result.grade}</span>
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 animate-fade-in">
+      <div className="card-modern p-6 sm:p-8 text-center mb-6">
+        <div className="mb-6">
+          <div className={`w-16 h-16 ${gradeInfo.bg} rounded-2xl flex items-center justify-center mx-auto mb-4 ring-4 ${gradeInfo.ring}`}>
+            <Trophy className={gradeInfo.color} size={28} />
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Exam Complete!</h1>
+          <p className={`text-sm font-semibold mt-1 ${gradeInfo.color}`}>{gradeInfo.label}</p>
         </div>
 
-        <p className="text-lg font-medium text-gray-900 mb-1">{result.label}</p>
-        <p className="text-4xl font-bold text-gray-900 mb-2">{percentage}%</p>
-        <p className="text-gray-500 mb-6">{score} out of {total} correct</p>
-
-        {time > 0 && (
-          <p className="text-sm text-gray-400 mb-6">Time: {minutes}m {seconds}s</p>
-        )}
-
-        <div className="flex items-center justify-center gap-2 mb-8">
-          {percentage >= 50 ? (
-            <span className="text-green-600 font-medium">✓ Passed</span>
-          ) : (
-            <span className="text-red-600 font-medium">✗ Failed (50% required)</span>
-          )}
+        <div className="relative inline-block mb-6">
+          <svg className="w-32 h-32 -rotate-90" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="54" fill="none" stroke="#e2e8f0" strokeWidth="8" />
+            <circle
+              cx="60" cy="60" r="54" fill="none"
+              className={`${gradeInfo.color === 'text-emerald-600' ? 'stroke-emerald-500' : gradeInfo.color === 'text-blue-600' ? 'stroke-blue-500' : gradeInfo.color === 'text-amber-600' ? 'stroke-amber-500' : gradeInfo.color === 'text-orange-600' ? 'stroke-orange-500' : 'stroke-red-500'}`}
+              strokeWidth="8"
+              strokeLinecap="round"
+              strokeDasharray={circumference}
+              strokeDashoffset={dashOffset}
+              style={{ transition: 'stroke-dashoffset 1s ease-out' }}
+            />
+          </svg>
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <span className="text-3xl font-extrabold text-gray-900">{percentage}%</span>
+            <span className={`text-sm font-bold ${gradeInfo.color}`}>{gradeInfo.grade}</span>
+          </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          {mode === 'practice' ? (
-            <Link to="/practice" className="px-6 py-2.5 bg-emerald-600 text-white rounded-xl font-medium hover:bg-emerald-700">
-              Practice Again
-            </Link>
-          ) : (
-            <Link to="/subjects" className="px-6 py-2.5 bg-emerald-600 text-white rounded-xl font-medium hover:bg-emerald-700">
-              Take Another Exam
-            </Link>
-          )}
-          <Link to="/dashboard" className="px-6 py-2.5 border border-gray-300 rounded-xl font-medium text-gray-600 hover:bg-gray-50">
-            Dashboard
-          </Link>
+        <div className="grid grid-cols-3 gap-4 max-w-sm mx-auto">
+          <div className="bg-emerald-50 rounded-xl p-3 border border-emerald-100">
+            <CheckCircle className="text-emerald-500 mx-auto mb-1" size={18} />
+            <p className="text-lg font-extrabold text-emerald-700">{score}</p>
+            <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">Correct</p>
+          </div>
+          <div className="bg-red-50 rounded-xl p-3 border border-red-100">
+            <XCircle className="text-red-500 mx-auto mb-1" size={18} />
+            <p className="text-lg font-extrabold text-red-700">{incorrect}</p>
+            <p className="text-[10px] font-bold text-red-600 uppercase tracking-wider">Incorrect</p>
+          </div>
+          <div className="bg-gray-50 rounded-xl p-3 border border-gray-200">
+            <Clock className="text-gray-500 mx-auto mb-1" size={18} />
+            <p className="text-lg font-extrabold text-gray-700">{minutes}:{String(seconds).padStart(2, '0')}</p>
+            <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Time</p>
+          </div>
         </div>
+      </div>
+
+      {subjectInfo && (
+        <div className="card-modern p-4 mb-6 flex items-center gap-3">
+          <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center text-lg">{subjectInfo.icon}</div>
+          <div className="flex-1 min-w-0">
+            <p className="font-semibold text-gray-900 text-sm">{subjectInfo.name}</p>
+            <p className="text-xs text-gray-500">{mode === 'exam' ? 'Exam' : 'Practice'} Mode</p>
+          </div>
+          <div className="flex items-center gap-1 text-emerald-600">
+            <Target size={14} />
+            <span className="text-sm font-bold">{score}/{total}</span>
+          </div>
+        </div>
+      )}
+
+      <div className="flex flex-col sm:flex-row gap-3">
+        <Link to="/dashboard" className="flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-gray-200 text-gray-700 font-semibold text-sm hover:bg-gray-50 transition-all">
+          <Home size={16} /> Dashboard
+        </Link>
+        <Link
+          to={subject !== 'all' ? `/practice/${subject}` : '/practice'}
+          className="flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-emerald-200 text-emerald-700 font-semibold text-sm hover:bg-emerald-50 transition-all"
+        >
+          <RotateCcw size={16} /> Practice Again
+        </Link>
+        <Link to="/subjects" className="flex-1 flex items-center justify-center gap-2 btn-primary">
+          <BookOpen size={16} /> Take Exam
+        </Link>
       </div>
     </div>
   )

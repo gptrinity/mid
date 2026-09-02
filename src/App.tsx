@@ -16,7 +16,7 @@ import Profile from './pages/Profile'
 
 function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50/50 via-white to-teal-50/30">
       <Navbar />
       <main>{children}</main>
     </div>
@@ -28,8 +28,13 @@ function AppRoutes() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="flex flex-col items-center gap-4 animate-fade-in">
+          <div className="w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center shadow-glow-green animate-pulse-soft">
+            <span className="text-2xl text-white font-extrabold">M</span>
+          </div>
+          <div className="w-8 h-8 border-2 border-emerald-200 border-t-emerald-600 rounded-full animate-spin" />
+        </div>
       </div>
     )
   }
@@ -41,9 +46,9 @@ function AppRoutes() {
       <Route path="/" element={<Navigate to={user ? '/dashboard' : '/login'} />} />
       <Route path="/dashboard" element={<ProtectedRoute><AuthenticatedLayout><Dashboard /></AuthenticatedLayout></ProtectedRoute>} />
       <Route path="/subjects" element={<ProtectedRoute><AuthenticatedLayout><Subjects /></AuthenticatedLayout></ProtectedRoute>} />
+      <Route path="/subjects/exam" element={<ProtectedRoute><AuthenticatedLayout><ExamSelect /></AuthenticatedLayout></ProtectedRoute>} />
       <Route path="/practice" element={<ProtectedRoute><AuthenticatedLayout><Practice /></AuthenticatedLayout></ProtectedRoute>} />
       <Route path="/practice/:subjectId" element={<ProtectedRoute><AuthenticatedLayout><Practice /></AuthenticatedLayout></ProtectedRoute>} />
-      <Route path="/subjects/exam" element={<ProtectedRoute><AuthenticatedLayout><ExamSelect /></AuthenticatedLayout></ProtectedRoute>} />
       <Route path="/exam/active" element={<ProtectedRoute><AuthenticatedLayout><ExamActive /></AuthenticatedLayout></ProtectedRoute>} />
       <Route path="/exam-result" element={<ProtectedRoute><AuthenticatedLayout><ExamResult /></AuthenticatedLayout></ProtectedRoute>} />
       <Route path="/ai-tutor" element={<ProtectedRoute><AuthenticatedLayout><AITutor /></AuthenticatedLayout></ProtectedRoute>} />

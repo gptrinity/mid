@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { BookOpen, GraduationCap, Brain, Star, TrendingUp } from 'lucide-react'
+import { BookOpen, GraduationCap, Brain, Star, TrendingUp, ChevronRight, Sparkles, Zap, ArrowRight } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { subjects } from '../data/subjects'
 import { allQuestions } from '../data'
@@ -9,107 +9,124 @@ export default function Dashboard() {
 
   const totalQuestions = allQuestions.length
   const totalSubjects = subjects.length
-  const level100Count = subjects.filter(s => s.level === 100).length
-  const level200Count = subjects.filter(s => s.level === 200).length
-  const level300Count = subjects.filter(s => s.level === 300).length
-  const level400Count = subjects.filter(s => s.level === 400).length
+  const levelCounts = [100, 200, 300, 400].map(l => ({
+    level: l,
+    count: subjects.filter(s => s.level === l).length,
+  }))
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+      <div className="gradient-hero-animated rounded-3xl p-6 sm:p-8 mb-8 text-white relative overflow-hidden animate-fade-in">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute -top-10 -right-10 w-48 h-48 bg-white/20 rounded-full blur-2xl" />
+          <div className="absolute -bottom-10 -left-10 w-56 h-56 bg-emerald-300/20 rounded-full blur-2xl" />
+        </div>
+        <div className="relative z-10 flex items-start justify-between">
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <Zap className="text-emerald-300" size={20} />
+              <span className="text-emerald-200 text-xs font-semibold uppercase tracking-widest">Dashboard</span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-extrabold mb-1 tracking-tight">Welcome back, {user?.fullName?.split(' ')[0] || 'Student'}!</h1>
+            <p className="text-emerald-100 text-sm sm:text-base">Ready to continue your midwifery studies?</p>
+          </div>
+          <Sparkles className="text-emerald-300 hidden sm:block animate-pulse-soft" size={32} />
+        </div>
+        <div className="flex flex-wrap gap-3 mt-6 relative z-10">
+          <Link to="/practice" className="bg-white/15 hover:bg-white/25 backdrop-blur-sm text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 border border-white/10 hover:border-white/20">
+            <GraduationCap size={16} /> Start Practice <ArrowRight size={14} />
+          </Link>
+          <Link to="/subjects" className="bg-white/15 hover:bg-white/25 backdrop-blur-sm text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 border border-white/10 hover:border-white/20">
+            <BookOpen size={16} /> Take Exam <ArrowRight size={14} />
+          </Link>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8">
+        {[
+          { icon: BookOpen, label: 'Subjects', value: totalSubjects, color: 'text-emerald-600', bg: 'bg-emerald-50', border: 'border-emerald-100' },
+          { icon: TrendingUp, label: 'Questions', value: totalQuestions, color: 'text-blue-600', bg: 'bg-blue-50', border: 'border-blue-100' },
+          { icon: Star, label: 'Exams Taken', value: '0', color: 'text-amber-600', bg: 'bg-amber-50', border: 'border-amber-100' },
+          { icon: Brain, label: 'AI Tutor', value: 'Ready', color: 'text-purple-600', bg: 'bg-purple-50', border: 'border-purple-100' },
+        ].map((stat, i) => (
+          <div key={i} className={`card-modern p-4 sm:p-5 border ${stat.border} animate-slide-up stagger-${i + 1}`}>
+            <div className={`w-10 h-10 ${stat.bg} rounded-xl flex items-center justify-center mb-3`}>
+              <stat.icon className={stat.color} size={20} />
+            </div>
+            <p className="text-2xl font-extrabold text-gray-900">{stat.value}</p>
+            <p className="text-sm text-gray-500 mt-0.5">{stat.label}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="grid sm:grid-cols-3 gap-4 mb-8">
+        <Link to="/practice" className="group card-modern p-5 border border-emerald-100 hover:border-emerald-200">
+          <div className="w-12 h-12 gradient-primary rounded-2xl flex items-center justify-center mb-4 group-hover:shadow-glow-green transition-shadow duration-300">
+            <GraduationCap className="text-white" size={24} />
+          </div>
+          <h3 className="text-base font-bold text-gray-900 mb-1">Practice Mode</h3>
+          <p className="text-sm text-gray-500 leading-relaxed">Study with instant feedback and detailed explanations</p>
+          <div className="mt-3 flex items-center gap-1 text-emerald-600 text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+            Start now <ArrowRight size={14} />
+          </div>
+        </Link>
+        <Link to="/subjects" className="group card-modern p-5 border border-blue-100 hover:border-blue-200">
+          <div className="w-12 h-12 gradient-blue rounded-2xl flex items-center justify-center mb-4">
+            <BookOpen className="text-white" size={24} />
+          </div>
+          <h3 className="text-base font-bold text-gray-900 mb-1">Exam Mode</h3>
+          <p className="text-sm text-gray-500 leading-relaxed">Timed exams with grading system and results</p>
+          <div className="mt-3 flex items-center gap-1 text-blue-600 text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+            Start now <ArrowRight size={14} />
+          </div>
+        </Link>
+        <Link to="/ai-tutor" className="group card-modern p-5 border border-purple-100 hover:border-purple-200">
+          <div className="w-12 h-12 gradient-purple rounded-2xl flex items-center justify-center mb-4 shadow-glow-purple">
+            <Brain className="text-white" size={24} />
+          </div>
+          <h3 className="text-base font-bold text-gray-900 mb-1">AI Tutor</h3>
+          <p className="text-sm text-gray-500 leading-relaxed">Ask questions and learn with AI assistance</p>
+          <div className="mt-3 flex items-center gap-1 text-purple-600 text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+            Start now <ArrowRight size={14} />
+          </div>
+        </Link>
+      </div>
+
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Welcome back, {user?.fullName || 'Student'}!</h1>
-        <p className="text-gray-600 mt-1">Ready to continue your midwifery studies?</p>
-      </div>
-
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <div className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-emerald-100 rounded-lg"><BookOpen className="text-emerald-600" size={20} /></div>
-            <div>
-              <p className="text-2xl font-bold text-gray-900">{totalSubjects}</p>
-              <p className="text-sm text-gray-500">Subjects</p>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-blue-100 rounded-lg"><TrendingUp className="text-blue-600" size={20} /></div>
-            <div>
-              <p className="text-2xl font-bold text-gray-900">{totalQuestions}</p>
-              <p className="text-sm text-gray-500">Questions</p>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-purple-100 rounded-lg"><Star className="text-purple-600" size={20} /></div>
-            <div>
-              <p className="text-2xl font-bold text-gray-900">0</p>
-              <p className="text-sm text-gray-500">Exams Taken</p>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-amber-100 rounded-lg"><Brain className="text-amber-600" size={20} /></div>
-            <div>
-              <p className="text-2xl font-bold text-gray-900">AI</p>
-              <p className="text-sm text-gray-500">Tutor Ready</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="grid md:grid-cols-3 gap-6 mb-8">
-        <Link to="/practice" className="group bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl p-6 text-white hover:shadow-lg transition-all">
-          <GraduationCap size={32} className="mb-3 group-hover:scale-110 transition-transform" />
-          <h3 className="text-lg font-semibold">Practice Mode</h3>
-          <p className="text-emerald-100 text-sm mt-1">Study with instant feedback and explanations</p>
-        </Link>
-        <Link to="/subjects" className="group bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white hover:shadow-lg transition-all">
-          <BookOpen size={32} className="mb-3 group-hover:scale-110 transition-transform" />
-          <h3 className="text-lg font-semibold">Exam Mode</h3>
-          <p className="text-blue-100 text-sm mt-1">Timed exams with grading system</p>
-        </Link>
-        <Link to="/ai-tutor" className="group bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl p-6 text-white hover:shadow-lg transition-all">
-          <Brain size={32} className="mb-3 group-hover:scale-110 transition-transform" />
-          <h3 className="text-lg font-semibold">AI Tutor</h3>
-          <p className="text-purple-100 text-sm mt-1">Ask questions and learn with AI assistance</p>
-        </Link>
-      </div>
-
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Browse by Level</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {[
-            { label: '100 Level', count: level100Count, color: 'bg-green-50 border-green-200 text-green-700' },
-            { label: '200 Level', count: level200Count, color: 'bg-blue-50 border-blue-200 text-blue-700' },
-            { label: '300 Level', count: level300Count, color: 'bg-purple-50 border-purple-200 text-purple-700' },
-            { label: '400 Level', count: level400Count, color: 'bg-amber-50 border-amber-200 text-amber-700' },
-          ].map(level => (
-            <Link to="/subjects" key={level.label} className={`rounded-xl border p-4 text-center hover:shadow-md transition-shadow ${level.color}`}>
-              <p className="text-2xl font-bold">{level.count}</p>
-              <p className="text-sm">{level.label}</p>
+        <h2 className="text-lg font-bold text-gray-900 mb-4">Browse by Level</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          {levelCounts.map(l => (
+            <Link to="/subjects" key={l.level} className="card-modern p-4 text-center group">
+              <div className={`w-10 h-10 rounded-xl mx-auto mb-2 flex items-center justify-center text-sm font-bold text-white ${
+                l.level === 100 ? 'bg-emerald-500' : l.level === 200 ? 'bg-blue-500' : l.level === 300 ? 'bg-purple-500' : 'bg-amber-500'
+              }`}>{l.level}</div>
+              <p className="text-xl font-extrabold text-gray-900">{l.count}</p>
+              <p className="text-xs text-gray-500 mt-0.5">Subjects</p>
             </Link>
           ))}
         </div>
       </div>
 
       <div>
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Popular Subjects</h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-bold text-gray-900">Popular Subjects</h2>
+          <Link to="/subjects" className="text-sm text-emerald-600 hover:text-emerald-700 font-semibold flex items-center gap-1 transition-colors">
+            View all <ChevronRight size={14} />
+          </Link>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {subjects.filter(s => s.level === 200 || s.level === 300).slice(0, 6).map(subject => (
             <Link
               key={subject.id}
               to={`/practice/${subject.id}`}
-              className="flex items-center gap-3 bg-white rounded-xl border border-gray-100 p-4 hover:shadow-md transition-shadow"
+              className="card-modern flex items-center gap-3 p-4 group"
             >
-              <span className="text-2xl">{subject.icon}</span>
+              <div className="w-11 h-11 bg-emerald-50 rounded-xl flex items-center justify-center text-xl flex-shrink-0 group-hover:bg-emerald-100 transition-colors">{subject.icon}</div>
               <div className="flex-1 min-w-0">
-                <p className="font-medium text-gray-900 truncate">{subject.name}</p>
-                <p className="text-sm text-gray-500">{subject.questionCount} questions</p>
+                <p className="font-semibold text-gray-900 text-sm truncate">{subject.name}</p>
+                <p className="text-xs text-gray-500 mt-0.5">{subject.questionCount} questions</p>
               </div>
-              <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">{subject.level}L</span>
+              <span className="text-[11px] font-bold bg-emerald-50 text-emerald-600 px-2.5 py-0.5 rounded-full">{subject.level}L</span>
             </Link>
           ))}
         </div>

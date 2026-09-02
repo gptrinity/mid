@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Clock } from 'lucide-react'
+import { Clock, ChevronLeft, ChevronRight } from 'lucide-react'
 import type { Question } from '../types'
 
 interface ExamData {
@@ -17,6 +17,7 @@ export default function ExamActive() {
   const [answers, setAnswers] = useState<(number | null)[]>([])
   const [timeLeft, setTimeLeft] = useState(0)
   const [submitted, setSubmitted] = useState(false)
+  const [showNav, setShowNav] = useState(false)
 
   useEffect(() => {
     const data = sessionStorage.getItem('currentExam')
@@ -71,97 +72,125 @@ export default function ExamActive() {
   const question = examData.questions[currentIdx]
   const minutes = Math.floor(timeLeft / 60)
   const seconds = timeLeft % 60
+  const answeredCount = answers.filter(a => a !== null).length
+  const isLowTime = timeLeft < 300
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-6">
-      <div className="flex items-center justify-between mb-6 bg-white rounded-xl border p-4">
-        <div className="flex items-center gap-4">
-          <span className="text-sm font-medium text-gray-600">
-            {currentIdx + 1}/{examData.questions.length}
-          </span>
-          <div className="w-32 h-2 bg-gray-200 rounded-full">
-            <div className="h-2 bg-emerald-500 rounded-full" style={{ width: `${((currentIdx + 1) / examData.questions.length) * 100}%` }} />
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 animate-fade-in">
+      <div className="sticky top-16 sm:top-20 z-30 mb-6">
+        <div className="glass-strong rounded-2xl border border-emerald-100/50 shadow-card p-3 sm:p-4">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3 flex-1 min-w-0">
+              <span className="text-sm font-bold text-gray-700 whitespace-nowrap">
+                {currentIdx + 1}/{examData.questions.length}
+              </span>
+              <div className="flex-1 h-2.5 bg-gray-100 rounded-full overflow-hidden min-w-[60px]">
+                <div className="h-full gradient-primary rounded-full transition-all duration-500" style={{ width: `${((currentIdx + 1) / examData.questions.length) * 100}%` }} />
+              </div>
+              <span className="text-xs text-gray-400 font-medium whitespace-nowrap">{answeredCount} answered</span>
+            </div>
+            <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-mono text-sm font-bold transition-all ${
+              isLowTime ? 'bg-red-50 text-red-600 animate-pulse-soft' : 'bg-gray-50 text-gray-700'
+            }`}>
+              <Clock size={14} />
+              {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
+            </div>
           </div>
-        </div>
-        <div className={`flex items-center gap-2 font-mono text-lg font-bold ${timeLeft < 300 ? 'text-red-500' : 'text-gray-700'}`}>
-          <Clock size={20} />
-          {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl border p-6 mb-6">
-        <div className="flex gap-2 mb-4">
-          <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">{question.difficulty}</span>
-          <span className="text-xs bg-emerald-50 text-emerald-700 px-2 py-1 rounded-full">Level {question.level}</span>
+      <div className="card-modern p-5 sm:p-6 mb-6">
+        <div className="flex items-center gap-2 mb-4">
+          <span className="text-[10px] font-bold uppercase tracking-widest bg-gray-100 text-gray-500 px-2.5 py-1 rounded-full">{question.difficulty}</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest bg-emerald-50 text-emerald-600 px-2.5 py-1 rounded-full">Level {question.level}</span>
         </div>
-        <p className="text-lg font-medium text-gray-900 mb-6">{question.question}</p>
-        <div className="space-y-3">
+        <p className="text-base sm:text-lg font-semibold text-gray-900 leading-relaxed">{question.question}</p>
+        <div className="mt-6 space-y-3">
           {question.options.map((option, idx) => (
             <button
               key={idx}
               onClick={() => handleAnswer(idx)}
-              className={`w-full text-left p-4 rounded-xl border-2 transition-all ${
+              className={`w-full text-left p-4 rounded-xl border-2 transition-all duration-300 ${
                 answers[currentIdx] === idx
-                  ? 'border-emerald-500 bg-emerald-50'
-                  : 'border-gray-200 hover:border-gray-300'
+                  ? 'border-emerald-500 bg-emerald-50 ring-2 ring-emerald-100'
+                  : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
               }`}
             >
               <div className="flex items-center gap-3">
-                <span className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-medium ${
-                  answers[currentIdx] === idx ? 'border-emerald-500 bg-emerald-500 text-white' : 'border-gray-300'
+                <span className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0 transition-all duration-300 ${
+                  answers[currentIdx] === idx ? 'bg-emerald-500 text-white scale-110' : 'bg-gray-100 text-gray-500'
                 }`}>
                   {String.fromCharCode(65 + idx)}
                 </span>
-                <span className="text-gray-700">{option}</span>
+                <span className="text-sm text-gray-700 font-medium">{option}</span>
               </div>
             </button>
           ))}
         </div>
       </div>
 
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-3">
         <button
           onClick={() => setCurrentIdx(i => Math.max(0, i - 1))}
           disabled={currentIdx === 0}
-          className="px-4 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-50 disabled:opacity-50"
+          className="flex items-center gap-1 px-4 py-2.5 rounded-xl border border-gray-200 text-gray-600 text-sm font-semibold hover:bg-gray-50 disabled:opacity-30 transition-all"
         >
-          Previous
+          <ChevronLeft size={16} /> <span className="hidden sm:inline">Prev</span>
         </button>
 
-        <div className="flex gap-1 flex-wrap justify-center max-w-md">
-          {examData.questions.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentIdx(idx)}
-              className={`w-8 h-8 rounded-lg text-xs font-medium transition-colors ${
-                idx === currentIdx
-                  ? 'bg-emerald-600 text-white'
-                  : answers[idx] !== null
-                  ? 'bg-emerald-100 text-emerald-700'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              {idx + 1}
-            </button>
-          ))}
-        </div>
+        <button
+          onClick={() => setShowNav(!showNav)}
+          className="px-3 py-2.5 rounded-xl border border-gray-200 text-xs font-bold text-gray-500 hover:bg-gray-50 transition-all sm:hidden"
+        >
+          {showNav ? 'Hide' : 'Navigate'}
+        </button>
 
         {currentIdx === examData.questions.length - 1 ? (
           <button
             onClick={handleSubmit}
-            className="px-6 py-2 rounded-lg bg-emerald-600 text-white font-medium hover:bg-emerald-700"
+            className="btn-primary flex items-center gap-2"
           >
-            Submit
+            Submit Exam
           </button>
         ) : (
           <button
             onClick={() => setCurrentIdx(i => Math.min(examData.questions.length - 1, i + 1))}
-            className="px-4 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-50"
+            className="flex items-center gap-1 px-4 py-2.5 rounded-xl border border-gray-200 text-gray-600 text-sm font-semibold hover:bg-gray-50 transition-all"
           >
-            Next
+            <span className="hidden sm:inline">Next</span> <ChevronRight size={16} />
           </button>
         )}
       </div>
+
+      {(showNav || typeof window !== 'undefined') && (
+        <div className={`${showNav ? 'fixed inset-x-0 bottom-0 z-50 bg-white border-t border-gray-200 p-4 shadow-elevated animate-slide-up sm:relative sm:inset-auto sm:z-auto sm:bg-transparent sm:border-0 sm:p-0 sm:shadow-none sm:mt-4' : 'hidden sm:block sm:mt-4'}`}>
+          <div className="flex gap-1.5 flex-wrap justify-center max-w-md mx-auto">
+            {examData.questions.map((q, idx) => {
+              const isCorrect = submitted && answers[idx] === q.correct
+              const isWrong = submitted && answers[idx] !== null && answers[idx] !== q.correct
+              return (
+                <button
+                  key={idx}
+                  onClick={() => { setCurrentIdx(idx); setShowNav(false) }}
+                  className={`w-9 h-9 rounded-lg text-xs font-bold transition-all ${
+                    idx === currentIdx
+                      ? 'bg-emerald-600 text-white shadow-soft scale-110'
+                      : isCorrect
+                      ? 'bg-emerald-100 text-emerald-700'
+                      : isWrong
+                      ? 'bg-red-100 text-red-600'
+                      : answers[idx] !== null
+                      ? 'bg-blue-100 text-blue-700'
+                      : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                  }`}
+                >
+                  {idx + 1}
+                </button>
+              )
+            })}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

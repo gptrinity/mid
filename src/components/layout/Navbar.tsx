@@ -17,76 +17,91 @@ export default function Navbar() {
   ]
 
   return (
-    <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+    <nav className="glass-strong border-b border-emerald-100/50 sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <Link to="/dashboard" className="flex items-center gap-2">
-            <span className="text-2xl">🏥</span>
-            <span className="text-xl font-bold text-emerald-700">MidWise</span>
+          <Link to="/dashboard" className="flex items-center gap-2.5 group">
+            <div className="w-9 h-9 gradient-primary rounded-xl flex items-center justify-center shadow-glow-green group-hover:shadow-[0_0_28px_rgba(16,185,129,0.35)] transition-shadow duration-300">
+              <span className="text-lg text-white font-extrabold">M</span>
+            </div>
+            <span className="text-xl font-extrabold text-gray-900 hidden sm:block tracking-tight">MidWise</span>
           </Link>
 
-          <div className="hidden md:flex items-center gap-1">
-            {navLinks.map(link => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  location.pathname === link.to
-                    ? 'bg-emerald-50 text-emerald-700'
-                    : 'text-gray-600 hover:bg-gray-50'
-                }`}
-              >
-                <link.icon size={16} />
-                {link.label}
-              </Link>
-            ))}
+          <div className="hidden md:flex items-center gap-1 bg-white/70 rounded-2xl p-1 shadow-card border border-emerald-50">
+            {navLinks.map(link => {
+              const isActive = location.pathname === link.to
+              return (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                    isActive
+                      ? 'bg-emerald-600 text-white shadow-soft'
+                      : 'text-gray-500 hover:text-gray-900 hover:bg-white/80'
+                  }`}
+                >
+                  <link.icon size={15} />
+                  {link.label}
+                </Link>
+              )
+            })}
           </div>
 
           <div className="hidden md:flex items-center gap-3">
             {isDemo && (
-              <span className="text-xs bg-amber-100 text-amber-700 px-2 py-1 rounded-full">Demo Mode</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest bg-amber-50 text-amber-600 px-2.5 py-1 rounded-full border border-amber-200/60">Demo</span>
             )}
-            <Link to="/profile" className="flex items-center gap-2 text-sm text-gray-600 hover:text-emerald-700">
-              <User size={16} />
-              {user?.fullName || user?.email}
+            <Link to="/profile" className="flex items-center gap-2.5 pl-3 pr-4 py-2 rounded-xl hover:bg-white/80 transition-all group">
+              <div className="w-8 h-8 gradient-primary rounded-full flex items-center justify-center text-white text-sm font-bold shadow-soft">
+                {(user?.fullName || user?.email || 'S')[0].toUpperCase()}
+              </div>
+              <span className="text-sm font-medium text-gray-600 group-hover:text-gray-900 hidden lg:block max-w-[120px] truncate">{user?.fullName || 'Student'}</span>
             </Link>
-            <button onClick={signOut} className="p-2 text-gray-400 hover:text-red-500">
-              <LogOut size={16} />
+            <button onClick={signOut} className="p-2 rounded-xl text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all" title="Sign out">
+              <LogOut size={17} />
             </button>
           </div>
 
-          <button className="md:hidden p-2" onClick={() => setMenuOpen(!menuOpen)}>
-            {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          <button className="md:hidden p-2 rounded-xl hover:bg-emerald-50 transition-colors" onClick={() => setMenuOpen(!menuOpen)}>
+            {menuOpen ? <X size={22} className="text-gray-700" /> : <Menu size={22} className="text-gray-700" />}
           </button>
         </div>
       </div>
 
       {menuOpen && (
-        <div className="md:hidden border-t bg-white px-4 py-3">
-          {navLinks.map(link => (
-            <Link
-              key={link.to}
-              to={link.to}
-              onClick={() => setMenuOpen(false)}
-              className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium ${
-                location.pathname === link.to
-                  ? 'bg-emerald-50 text-emerald-700'
-                  : 'text-gray-600 hover:bg-gray-50'
-              }`}
-            >
-              <link.icon size={18} />
-              {link.label}
-            </Link>
-          ))}
-          <div className="border-t mt-2 pt-2">
-            <Link to="/profile" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-3 py-2.5 text-sm text-gray-600">
-              <User size={18} /> Profile
-            </Link>
-            <button onClick={() => { signOut(); setMenuOpen(false) }} className="flex items-center gap-2 px-3 py-2.5 text-sm text-red-500 w-full">
-              <LogOut size={18} /> Sign Out
-            </button>
+        <>
+          <div className="md:hidden fixed inset-0 bg-black/20 backdrop-blur-sm z-40" onClick={() => setMenuOpen(false)} />
+          <div className="md:hidden fixed top-16 left-0 right-0 glass-strong border-b border-emerald-100/50 shadow-elevated z-50 animate-slide-up">
+            <div className="px-4 py-3 space-y-1">
+              {navLinks.map(link => {
+                const isActive = location.pathname === link.to
+                return (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    onClick={() => setMenuOpen(false)}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+                      isActive
+                        ? 'bg-emerald-600 text-white shadow-soft'
+                        : 'text-gray-600 hover:bg-white/80'
+                    }`}
+                  >
+                    <link.icon size={18} />
+                    {link.label}
+                  </Link>
+                )
+              })}
+            </div>
+            <div className="border-t border-emerald-100/50 px-4 py-3">
+              <Link to="/profile" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-600 hover:bg-white/80">
+                <User size={18} /> Profile
+              </Link>
+              <button onClick={() => { signOut(); setMenuOpen(false) }} className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-red-500 hover:bg-red-50 w-full">
+                <LogOut size={18} /> Sign Out
+              </button>
+            </div>
           </div>
-        </div>
+        </>
       )}
     </nav>
   )
