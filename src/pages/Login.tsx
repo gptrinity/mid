@@ -31,7 +31,7 @@ export default function Login() {
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-center p-12">
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1749065312657-bf7ccd659791?w=1200&q=80"
+            src="https://images.unsplash.com/photo-sQdjtNQxqTs?w=1200&q=80"
             alt="Midwife assisting a woman in labour"
             className="w-full h-full object-cover blur-[3px] scale-105"
           />
@@ -63,7 +63,7 @@ export default function Login() {
       {/* Mobile: Blurry image background behind form */}
       <div className="lg:hidden fixed inset-0 z-0">
         <img
-          src="https://images.unsplash.com/photo-1749065312657-bf7ccd659791?w=800&q=80"
+          src="https://images.unsplash.com/photo-sQdjtNQxqTs?w=800&q=80"
           alt="Midwife assisting a woman in labour"
           className="w-full h-full object-cover blur-[4px] scale-110"
         />
