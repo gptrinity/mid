@@ -28,25 +28,29 @@ export default function Register() {
 
   return (
     <div className="min-h-screen flex">
-      <div className="hidden lg:flex lg:w-1/2 gradient-hero-animated relative overflow-hidden items-center justify-center p-12">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-20 w-72 h-72 bg-white/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-emerald-300/20 rounded-full blur-3xl" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-teal-300/15 rounded-full blur-3xl" />
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-center p-12">
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&q=80"
+            alt="Medical student studying"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 backdrop-blur-[2px]" />
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/85 via-emerald-800/75 to-teal-900/85" />
         </div>
         <div className="relative z-10 text-white max-w-md">
-          <div className="w-16 h-16 bg-white/15 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-8 border border-white/20">
+          <div className="w-16 h-16 bg-white/15 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-8 border border-white/20 shadow-glow-green">
             <Sparkles className="text-white" size={28} />
           </div>
           <h2 className="text-4xl font-extrabold mb-4 leading-tight tracking-tight">Your Study Journey Starts Here</h2>
           <p className="text-emerald-100 text-lg leading-relaxed">Join thousands of midwifery students preparing smarter with AI-powered practice and exams.</p>
           <div className="mt-10 flex gap-8">
             <div>
-              <p className="text-3xl font-extrabold">31</p>
+              <p className="text-3xl font-extrabold">30</p>
               <p className="text-emerald-200 text-sm">Subjects</p>
             </div>
             <div>
-              <p className="text-3xl font-extrabold">332+</p>
+              <p className="text-3xl font-extrabold">1200+</p>
               <p className="text-emerald-200 text-sm">Questions</p>
             </div>
             <div>

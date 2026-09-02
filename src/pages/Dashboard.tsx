@@ -4,10 +4,12 @@ import { useAuth } from '../context/AuthContext'
 import { subjects } from '../data/subjects'
 import { allQuestions, getQuestionCountBySubject } from '../data'
 import { useStudyProgress } from '../hooks/useStudyProgress'
+import { useScrollAnimation } from '../hooks/useScrollAnimation'
 
 export default function Dashboard() {
   const { user } = useAuth()
   const { getStudiedCount, getTotalStudied } = useStudyProgress()
+  const scrollRef = useScrollAnimation()
 
   const totalQuestions = allQuestions.length
   const totalSubjects = subjects.length
@@ -18,7 +20,7 @@ export default function Dashboard() {
   }))
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10" ref={scrollRef}>
       <div className="gradient-hero-animated rounded-3xl p-6 sm:p-8 mb-8 text-white relative overflow-hidden animate-fade-in">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute -top-10 -right-10 w-48 h-48 bg-white/20 rounded-full blur-2xl" />
@@ -52,7 +54,7 @@ export default function Dashboard() {
           { icon: BookMarked, label: 'Topics Studied', value: totalStudied, color: 'text-purple-600', bg: 'bg-purple-50', border: 'border-purple-100' },
           { icon: Brain, label: 'AI Tutor', value: 'Ready', color: 'text-amber-600', bg: 'bg-amber-50', border: 'border-amber-100' },
         ].map((stat, i) => (
-          <div key={i} className={`card-modern p-4 sm:p-5 border ${stat.border} animate-slide-up stagger-${i + 1}`}>
+          <div key={i} className={`card-modern p-4 sm:p-5 border ${stat.border} scroll-reveal`} style={{ animationDelay: `${i * 100}ms` }}>
             <div className={`w-10 h-10 ${stat.bg} rounded-xl flex items-center justify-center mb-3`}>
               <stat.icon className={stat.color} size={20} />
             </div>
@@ -63,7 +65,7 @@ export default function Dashboard() {
       </div>
 
       <div className="grid sm:grid-cols-3 gap-4 mb-8">
-        <Link to="/practice" className="group card-modern p-5 border border-emerald-100 hover:border-emerald-200">
+        <Link to="/practice" className="group card-modern p-5 border border-emerald-100 hover:border-emerald-200 scroll-reveal" style={{ animationDelay: '100ms' }}>
           <div className="w-12 h-12 gradient-primary rounded-2xl flex items-center justify-center mb-4 group-hover:shadow-glow-green transition-shadow duration-300">
             <GraduationCap className="text-white" size={24} />
           </div>
@@ -73,7 +75,7 @@ export default function Dashboard() {
             Start now <ArrowRight size={14} />
           </div>
         </Link>
-        <Link to="/materials" className="group card-modern p-5 border border-blue-100 hover:border-blue-200">
+        <Link to="/materials" className="group card-modern p-5 border border-blue-100 hover:border-blue-200 scroll-reveal" style={{ animationDelay: '200ms' }}>
           <div className="w-12 h-12 gradient-blue rounded-2xl flex items-center justify-center mb-4">
             <BookMarked className="text-white" size={24} />
           </div>
@@ -83,7 +85,7 @@ export default function Dashboard() {
             Browse now <ArrowRight size={14} />
           </div>
         </Link>
-        <Link to="/ai-tutor" className="group card-modern p-5 border border-purple-100 hover:border-purple-200">
+        <Link to="/ai-tutor" className="group card-modern p-5 border border-purple-100 hover:border-purple-200 scroll-reveal" style={{ animationDelay: '300ms' }}>
           <div className="w-12 h-12 gradient-purple rounded-2xl flex items-center justify-center mb-4 shadow-glow-purple">
             <Brain className="text-white" size={24} />
           </div>
@@ -98,8 +100,8 @@ export default function Dashboard() {
       <div className="mb-8">
         <h2 className="text-lg font-bold text-gray-900 mb-4">Browse by Level</h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          {levelCounts.map(l => (
-            <Link to="/subjects" key={l.level} className="card-modern p-4 text-center group">
+          {levelCounts.map((l, i) => (
+            <Link to="/subjects" key={l.level} className="card-modern p-4 text-center group scroll-reveal" style={{ animationDelay: `${i * 80}ms` }}>
               <div className={`w-10 h-10 rounded-xl mx-auto mb-2 flex items-center justify-center text-sm font-bold text-white ${
                 l.level === 100 ? 'bg-emerald-500' : l.level === 200 ? 'bg-blue-500' : l.level === 300 ? 'bg-purple-500' : 'bg-amber-500'
               }`}>{l.level}</div>
@@ -118,14 +120,15 @@ export default function Dashboard() {
           </Link>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {subjects.filter(s => s.level === 200 || s.level === 300).slice(0, 6).map(subject => {
+          {subjects.filter(s => s.level === 200 || s.level === 300).slice(0, 6).map((subject, i) => {
             const studied = getStudiedCount(subject.id)
             const total = subject.topics.length
             return (
               <Link
                 key={subject.id}
                 to={`/practice/${subject.id}`}
-                className="card-modern flex items-center gap-3 p-4 group"
+                className="card-modern flex items-center gap-3 p-4 group scroll-reveal"
+                style={{ animationDelay: `${i * 60}ms` }}
               >
                 <div className="w-11 h-11 bg-emerald-50 rounded-xl flex items-center justify-center text-xl flex-shrink-0 group-hover:bg-emerald-100 transition-colors">{subject.icon}</div>
                 <div className="flex-1 min-w-0">

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Search, Filter, BookMarked, ChevronRight } from 'lucide-react'
 import { subjects } from '../data/subjects'
 import { useStudyProgress } from '../hooks/useStudyProgress'
+import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import type { Level } from '../types'
 
 const levels: { value: Level | 'all'; label: string }[] = [
@@ -38,6 +39,7 @@ export default function Materials() {
   const [search, setSearch] = useState('')
   const [selectedLevel, setSelectedLevel] = useState<Level | 'all'>('all')
   const { getStudiedCount } = useStudyProgress()
+  const scrollRef = useScrollAnimation()
 
   const filtered = useMemo(() => {
     return subjects.filter(s => {
@@ -58,7 +60,7 @@ export default function Materials() {
   }, [filtered])
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 animate-fade-in">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 animate-fade-in" ref={scrollRef}>
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
           <div className="w-10 h-10 gradient-blue rounded-xl flex items-center justify-center shadow-soft">
@@ -110,7 +112,7 @@ export default function Materials() {
           {Object.entries(groupedByLevel)
             .sort(([a], [b]) => Number(a) - Number(b))
             .map(([level, subs]) => (
-              <div key={level} className="animate-slide-up">
+              <div key={level} className="scroll-reveal">
                 <div className="flex items-center gap-2 mb-4">
                   <div className={`w-8 h-8 ${levelColors[Number(level)]} rounded-lg flex items-center justify-center text-xs font-bold text-white`}>
                     {level}
@@ -127,7 +129,7 @@ export default function Materials() {
                       <Link
                         key={subject.id}
                         to={`/materials/${subject.id}`}
-                        className="card-modern p-4 group"
+                        className="card-modern p-4 group scroll-reveal"
                         style={{ animationDelay: `${i * 40}ms` }}
                       >
                         <div className="flex items-start gap-3">

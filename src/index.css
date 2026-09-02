@@ -180,6 +180,42 @@
   .stagger-5 { animation-delay: 0.25s; }
   .stagger-6 { animation-delay: 0.3s; }
 
+  .scroll-reveal {
+    opacity: 0;
+    animation: scrollReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-play-state: paused;
+  }
+  .scroll-reveal.visible {
+    animation-play-state: running;
+  }
+
+  .scroll-reveal-left {
+    opacity: 0;
+    animation: scrollRevealLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-play-state: paused;
+  }
+  .scroll-reveal-left.visible {
+    animation-play-state: running;
+  }
+
+  .scroll-reveal-right {
+    opacity: 0;
+    animation: scrollRevealRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-play-state: paused;
+  }
+  .scroll-reveal-right.visible {
+    animation-play-state: running;
+  }
+
+  .scroll-reveal-scale {
+    opacity: 0;
+    animation: scrollRevealScale 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-play-state: paused;
+  }
+  .scroll-reveal-scale.visible {
+    animation-play-state: running;
+  }
+
   .card-modern {
     background: white;
     border-radius: 1rem;
@@ -292,4 +328,24 @@
 @keyframes confetti-fall {
   0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
   100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+@keyframes scrollReveal {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scrollRevealLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scrollRevealRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scrollRevealScale {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
 }

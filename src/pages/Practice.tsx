@@ -3,13 +3,19 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { CheckCircle, XCircle, ArrowRight, ChevronLeft, BookOpen } from 'lucide-react'
 import { subjects } from '../data/subjects'
 import { getQuestionsBySubject, getQuestionCountBySubject } from '../data'
+import { shuffleOptions } from '../lib/utils'
 import type { Question } from '../types'
+
+interface ShuffledQuestion extends Question {
+  shuffledOptions: string[]
+  shuffledCorrect: number
+}
 
 export default function Practice() {
   const { subjectId } = useParams()
   const navigate = useNavigate()
   const [selectedSubject, setSelectedSubject] = useState<string>(subjectId || '')
-  const [questions, setQuestions] = useState<Question[]>([])
+  const [questions, setQuestions] = useState<ShuffledQuestion[]>([])
   const [currentIdx, setCurrentIdx] = useState(0)
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null)
   const [showResult, setShowResult] = useState(false)
@@ -18,8 +24,12 @@ export default function Practice() {
 
   useEffect(() => {
     if (selectedSubject) {
-      const qs = getQuestionsBySubject(selectedSubject)
-      setQuestions(qs.sort(() => Math.random() - 0.5))
+      const qs = getQuestionsBySubject(selectedSubject).sort(() => Math.random() - 0.5)
+      const shuffled = qs.map(q => {
+        const { options, correct } = shuffleOptions(q)
+        return { ...q, shuffledOptions: options, shuffledCorrect: correct }
+      })
+      setQuestions(shuffled)
       setCurrentIdx(0)
       setSelectedAnswer(null)
       setShowResult(false)
@@ -35,7 +45,7 @@ export default function Practice() {
     setSelectedAnswer(idx)
     setShowResult(true)
     setAnswered(a => a + 1)
-    if (idx === currentQuestion.correct) {
+    if (idx === currentQuestion.shuffledCorrect) {
       setScore(s => s + 1)
     }
   }
@@ -125,12 +135,12 @@ export default function Practice() {
         <p className="text-base sm:text-lg font-semibold text-gray-900 leading-relaxed">{currentQuestion.question}</p>
 
         <div className="mt-6 space-y-3">
-          {currentQuestion.options.map((option, idx) => {
+          {currentQuestion.shuffledOptions.map((option, idx) => {
             let style = 'border-gray-200 hover:border-emerald-300 hover:bg-emerald-50/50'
             if (showResult) {
-              if (idx === currentQuestion.correct) {
+              if (idx === currentQuestion.shuffledCorrect) {
                 style = 'border-emerald-400 bg-emerald-50 ring-2 ring-emerald-100'
-              } else if (idx === selectedAnswer && idx !== currentQuestion.correct) {
+              } else if (idx === selectedAnswer && idx !== currentQuestion.shuffledCorrect) {
                 style = 'border-red-400 bg-red-50 ring-2 ring-red-100'
               } else {
                 style = 'border-gray-200 opacity-40'
@@ -146,13 +156,13 @@ export default function Practice() {
               >
                 <div className="flex items-center gap-3">
                   <span className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0 transition-all duration-300 ${
-                    showResult && idx === currentQuestion.correct
+                    showResult && idx === currentQuestion.shuffledCorrect
                       ? 'bg-emerald-500 text-white scale-110'
                       : showResult && idx === selectedAnswer
                       ? 'bg-red-500 text-white'
                       : 'bg-gray-100 text-gray-500'
                   }`}>
-                    {showResult && idx === currentQuestion.correct ? (
+                    {showResult && idx === currentQuestion.shuffledCorrect ? (
                       <CheckCircle size={16} />
                     ) : showResult && idx === selectedAnswer ? (
                       <XCircle size={16} />
@@ -169,12 +179,12 @@ export default function Practice() {
 
         {showResult && (
           <div className={`mt-6 p-4 rounded-xl animate-slide-up ${
-            selectedAnswer === currentQuestion.correct
+            selectedAnswer === currentQuestion.shuffledCorrect
               ? 'bg-emerald-50 border border-emerald-200'
               : 'bg-amber-50 border border-amber-200'
           }`}>
-            <p className={`font-bold text-sm mb-1 ${selectedAnswer === currentQuestion.correct ? 'text-emerald-700' : 'text-amber-700'}`}>
-              {selectedAnswer === currentQuestion.correct ? 'Correct!' : 'Incorrect'}
+            <p className={`font-bold text-sm mb-1 ${selectedAnswer === currentQuestion.shuffledCorrect ? 'text-emerald-700' : 'text-amber-700'}`}>
+              {selectedAnswer === currentQuestion.shuffledCorrect ? 'Correct!' : 'Incorrect'}
             </p>
             <p className="text-sm text-gray-600 leading-relaxed">{currentQuestion.explanation}</p>
           </div>

@@ -4,8 +4,8 @@ import { psychologyQuestions } from './introduction-psychology'
 import { sociologyQuestions } from './introduction-sociology'
 import { fundamentalsQuestions } from './fundamentals-nursing'
 import { communicationQuestions } from './communication-skills'
-import { anatomyQuestions } from './human-anatomy'
-import { physiologyQuestions } from './human-physiology'
+import { humanAnatomyQuestions } from './human-anatomy'
+import { humanPhysiologyQuestions } from './human-physiology'
 import { healthAssessmentQuestions } from './health-assessment'
 import { microbiologyQuestions } from './microbiology'
 import { pharmacologyQuestions } from './pharmacology'
@@ -37,8 +37,8 @@ export const allQuestions: Question[] = [
   ...sociologyQuestions,
   ...fundamentalsQuestions,
   ...communicationQuestions,
-  ...anatomyQuestions,
-  ...physiologyQuestions,
+  ...humanAnatomyQuestions,
+  ...humanPhysiologyQuestions,
   ...healthAssessmentQuestions,
   ...microbiologyQuestions,
   ...pharmacologyQuestions,

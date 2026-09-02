@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Search, Filter, BookOpen, ChevronRight } from 'lucide-react'
 import { subjects } from '../data/subjects'
 import { getQuestionCountBySubject } from '../data'
+import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import type { Level } from '../types'
 
 const levels: { value: Level | 'all'; label: string }[] = [
@@ -37,6 +38,7 @@ const levelBgColors: Record<number, string> = {
 export default function Subjects() {
   const [search, setSearch] = useState('')
   const [selectedLevel, setSelectedLevel] = useState<Level | 'all'>('all')
+  const scrollRef = useScrollAnimation()
 
   const filtered = useMemo(() => {
     return subjects.filter(s => {
@@ -57,7 +59,7 @@ export default function Subjects() {
   }, [filtered])
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 animate-fade-in">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 animate-fade-in" ref={scrollRef}>
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
           <div className="w-10 h-10 gradient-primary rounded-xl flex items-center justify-center shadow-soft">
@@ -109,7 +111,7 @@ export default function Subjects() {
           {Object.entries(groupedByLevel)
             .sort(([a], [b]) => Number(a) - Number(b))
             .map(([level, subs]) => (
-              <div key={level} className="animate-slide-up">
+              <div key={level} className="scroll-reveal">
                 <div className="flex items-center gap-2 mb-4">
                   <div className={`w-8 h-8 ${levelColors[Number(level)]} rounded-lg flex items-center justify-center text-xs font-bold text-white`}>
                     {level}
@@ -122,7 +124,7 @@ export default function Subjects() {
                     <Link
                       key={subject.id}
                       to={`/practice/${subject.id}`}
-                      className="card-modern p-4 group"
+                      className="card-modern p-4 group scroll-reveal"
                       style={{ animationDelay: `${i * 40}ms` }}
                     >
                       <div className="flex items-start gap-3">
